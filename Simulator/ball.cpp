@@ -3,13 +3,13 @@
 #include <iostream>
 
 
-Ball::Ball(b2World& world, unsigned int x, unsigned int y, const sf::Color color)
+Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color color) : world(worldIn)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(x / Constants::pixelsPerMeter, y / Constants::pixelsPerMeter);
 
-    this->body = world.CreateBody(&bodyDef);
+    this->body = world->CreateBody(&bodyDef);
 
     b2CircleShape dynamicBox;
     dynamicBox.m_radius = Ball::RadiusPixels / Constants::pixelsPerMeter;
@@ -20,7 +20,7 @@ Ball::Ball(b2World& world, unsigned int x, unsigned int y, const sf::Color color
     fixtureDef.friction = 0.3f;
     fixtureDef.restitution = 1.001;
     fixtureDef.filter.categoryBits = Constants::projectilesCategory;
-    fixtureDef.filter.maskBits = Constants::wallCategory;
+    fixtureDef.filter.maskBits = Constants::projectilesCategory;
 
     this->body->CreateFixture(&fixtureDef);
 
@@ -31,6 +31,7 @@ Ball::Ball(b2World& world, unsigned int x, unsigned int y, const sf::Color color
 
 Ball::~Ball()
 {
+    this->world->DestroyBody(this->body);
 }
 
 b2Body* Ball::getBody()

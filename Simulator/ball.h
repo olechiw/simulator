@@ -5,7 +5,7 @@
 class Ball
 {
 public:
-	Ball(b2World& world, unsigned int x = 0, unsigned int y = 0, const sf::Color color = sf::Color::Red);
+	Ball(b2World* world, unsigned int x = 0, unsigned int y = 0, const sf::Color color = sf::Color::Red);
 	~Ball();
 	b2Body* getBody();
 	const sf::CircleShape& getShape();
@@ -13,5 +13,6 @@ public:
 private:
 	b2Body* body;
 	sf::CircleShape shape;
+	b2World* world;
 };
 
