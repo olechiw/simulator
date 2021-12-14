@@ -3,24 +3,24 @@
 #include <iostream>
 
 
-Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color color) : CollisionHandler(true, Constants::Identifiers::Projectile), world(worldIn)
+Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color color) : CollisionHandler(true, Identifiers::Projectile), world(worldIn)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(x / Constants::pixelsPerMeter, y / Constants::pixelsPerMeter);
+    bodyDef.position.Set(x / PhysicsConstants::pixelsPerMeter, y / PhysicsConstants::pixelsPerMeter);
 
     this->body = world->CreateBody(&bodyDef);
 
     b2CircleShape dynamicBox;
-    dynamicBox.m_radius = Ball::RadiusPixels / Constants::pixelsPerMeter;
+    dynamicBox.m_radius = Ball::RadiusPixels / PhysicsConstants::pixelsPerMeter;
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 0.0f;
     fixtureDef.restitution = 1.001;
-    fixtureDef.filter.categoryBits = Constants::projectilesCategory;
-    fixtureDef.filter.maskBits = Constants::projectilesCategory;
+    fixtureDef.filter.categoryBits = BitMasks::PlayerBullet;
+    fixtureDef.filter.maskBits = BitMasks::Enemy | BitMasks::ScreenEdge | BitMasks::PlayerBullet;
 
     this->body->CreateFixture(&fixtureDef);
     this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(this);
@@ -28,6 +28,7 @@ Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color col
     this->shape.setFillColor(color);
     this->shape.setRadius(Ball::RadiusPixels);
     this->shape.setOrigin(Ball::RadiusPixels, Ball::RadiusPixels);
+    this->onPhysicsUpdated();
 }
 
 Ball::~Ball()
@@ -38,14 +39,9 @@ Ball::~Ball()
 void Ball::collideWith(b2Fixture* other)
 {
     auto identifier = GetFixtureIdentifier(other);
-    // if (identifier == Constants::Identifiers::edge) {
-        if (this->bounced < 5) {
-            this->bounced++;
-        }
-        else {
-            this->destroy();
-        }
-    // }
+    if (identifier == Identifiers::ScreenEdge) {
+        this->destroy();
+    }
 }
 
 b2Body* Ball::getBody()
@@ -62,5 +58,5 @@ void Ball::render(sf::RenderWindow& window)
 void Ball::onPhysicsUpdated()
 {
     auto& pos = this->body->GetPosition();
-    this->shape.setPosition(pos.x * Constants::pixelsPerMeter, pos.y * Constants::pixelsPerMeter);
+    this->shape.setPosition(pos.x * PhysicsConstants::pixelsPerMeter, pos.y * PhysicsConstants::pixelsPerMeter);
 }

@@ -89,8 +89,8 @@ int main()
             fireClock.restart();
         }
 
-        if (physicsClock.getElapsedTime().asSeconds() > Constants::timeStep) {
-            world.Step(Constants::timeStep, Constants::velocityIterations, Constants::positionIterations);
+        if (physicsClock.getElapsedTime().asSeconds() > PhysicsConstants::timeStep) {
+            world.Step(PhysicsConstants::timeStep, PhysicsConstants::velocityIterations, PhysicsConstants::positionIterations);
             scene.dispatchPhysicsUpdate();
             physicsClock.restart();
         }

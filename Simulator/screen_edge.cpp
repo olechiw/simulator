@@ -4,7 +4,7 @@
 
 class EdgeUserData : public CollisionHandler {
 public:
-    EdgeUserData(): CollisionHandler(false, Constants::Identifiers::Edge) {
+    EdgeUserData(): CollisionHandler(false, Identifiers::ScreenEdge) {
     }
 };
 
@@ -16,15 +16,15 @@ void createScreenEdges(b2World* world, unsigned int width, unsigned int height) 
     b2EdgeShape edgeShape;
 
     b2Vec2 lowerLeftCorner = b2Vec2(0, 0);
-    b2Vec2 lowerRightCorner = b2Vec2(height / Constants::pixelsPerMeter, 0);
-    b2Vec2 upperLeftCorner = b2Vec2(0, width / Constants::pixelsPerMeter);
-    b2Vec2 upperRightCorner = b2Vec2(height / Constants::pixelsPerMeter, width / Constants::pixelsPerMeter);
+    b2Vec2 lowerRightCorner = b2Vec2(height / PhysicsConstants::pixelsPerMeter, 0);
+    b2Vec2 upperLeftCorner = b2Vec2(0, width / PhysicsConstants::pixelsPerMeter);
+    b2Vec2 upperRightCorner = b2Vec2(height / PhysicsConstants::pixelsPerMeter, width / PhysicsConstants::pixelsPerMeter);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &edgeShape;
     fixtureDef.density = 0;
-    fixtureDef.filter.categoryBits = Constants::projectilesCategory;
-    fixtureDef.filter.maskBits = Constants::projectilesCategory;
+    fixtureDef.filter.categoryBits = BitMasks::ScreenEdge;
+    fixtureDef.filter.maskBits = BitMasks::MatchAll;
     edgeShape.SetTwoSided(lowerLeftCorner, lowerRightCorner);
     edgeBody->CreateFixture(&fixtureDef);
     edgeShape.SetTwoSided(lowerRightCorner, upperRightCorner);
