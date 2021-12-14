@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color color) : world(worldIn)
+Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color color) : CollisionHandler(true, Constants::Identifiers::Projectile), world(worldIn)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -23,6 +23,7 @@ Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color col
     fixtureDef.filter.maskBits = Constants::projectilesCategory;
 
     this->body->CreateFixture(&fixtureDef);
+    this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(this);
 
     this->shape.setFillColor(color);
     this->shape.setRadius(Ball::RadiusPixels);
@@ -34,15 +35,32 @@ Ball::~Ball()
     this->world->DestroyBody(this->body);
 }
 
+void Ball::collideWith(b2Fixture* other)
+{
+    auto identifier = GetFixtureIdentifier(other);
+    // if (identifier == Constants::Identifiers::edge) {
+        if (this->bounced < 5) {
+            this->bounced++;
+        }
+        else {
+            this->destroy();
+        }
+    // }
+}
+
 b2Body* Ball::getBody()
 {
     return this->body;
 }
 
-const sf::CircleShape& Ball::getShape()
+
+void Ball::render(sf::RenderWindow& window)
+{
+    window.draw(this->shape);
+}
+
+void Ball::onPhysicsUpdated()
 {
     auto& pos = this->body->GetPosition();
-    // std::cout << pos.x << " " << pos.y << std::endl;
     this->shape.setPosition(pos.x * Constants::pixelsPerMeter, pos.y * Constants::pixelsPerMeter);
-    return this->shape;
 }

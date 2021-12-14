@@ -140,7 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ball.cpp" />
+    <ClCompile Include="contact_listener.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="renderable.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="screen_edge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="openal32.dll" />
@@ -157,7 +161,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ball.h" />
+    <ClInclude Include="contact_listener.h" />
     <ClInclude Include="constants.h" />
+    <ClInclude Include="renderable.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="screen_edge.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
