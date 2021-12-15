@@ -4,10 +4,10 @@
 #include "contact_listener.h"
 #include "renderable.h"
 
-class Ball : private CollisionHandler, public Renderable
+class Ball : public CollisionHandler, public Renderable
 {
 public:
-	Ball(b2World* world, unsigned int x = 0, unsigned int y = 0, const sf::Color color = sf::Color::Red);
+	Ball(b2World* world, int x = 0, int y = 0, const sf::Color color = sf::Color::Red);
 	~Ball();
 	b2Body* getBody();
 	static constexpr int RadiusPixels = 10;

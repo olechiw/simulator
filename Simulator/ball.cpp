@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color color) : CollisionHandler(true, Identifiers::Projectile), world(worldIn)
+Ball::Ball(b2World* worldIn, int x, int y, const sf::Color color) : world(worldIn)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -23,7 +23,12 @@ Ball::Ball(b2World* worldIn, unsigned int x, unsigned int y, const sf::Color col
     fixtureDef.filter.maskBits = BitMasks::Enemy | BitMasks::ScreenEdge | BitMasks::PlayerBullet;
 
     this->body->CreateFixture(&fixtureDef);
-    this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(this);
+
+    BodyUserData* bodyUserData = new BodyUserData{
+        Identifiers::Character,
+        this
+    };
+    this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(bodyUserData);
 
     this->shape.setFillColor(color);
     this->shape.setRadius(Ball::RadiusPixels);

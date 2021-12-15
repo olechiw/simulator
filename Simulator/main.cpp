@@ -8,18 +8,20 @@
 #include "ball.h"
 #include "screen_edge.h"
 #include "scene.h"
+#include "mouse_state.h"
+#include "character.h"
 
 const auto screenSize = 500.f;
 const auto speed = 10.f;
 const auto attackSpeed = .1f;
 
 const std::vector<sf::Color> colors = {
-    sf::Color::Red, sf::Color::Blue, sf::Color::Green, sf::Color::Cyan, sf::Color::White, sf::Color::Magenta, sf::Color::Yellow
+    sf::Color::Red, sf::Color::Blue, sf::Color::Green, sf::Color::Cyan, sf::Color::Magenta, sf::Color::Yellow
 };
 
-void fire(b2World& world, sf::RenderWindow& window) {
+void fire(b2World& world, sf::RenderWindow& window, const Character &character) {
     auto& scene = Scene::getInstance();
-    auto pos = sf::Mouse::getPosition(window);
+    const auto& pos = character.getPosition();
 
     auto ball = std::make_shared<Ball>(&world, pos.x + 10, pos.y + 10, colors[std::rand() % colors.size()]);
     scene.addObject(ball);
@@ -57,9 +59,13 @@ int main()
 
     sf::Clock fpsClock;
 
+    MouseState mouseState;
+
+    auto character = std::make_shared<Character>(&world, 250, 250);
+    scene.addObject(character);
+
     float frameNumber = 0;
 
-    bool mousePressed = false;
     while (window.isOpen())
     {
         sf::Event event;
@@ -67,25 +73,17 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-            if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Button::Right) {
-                    mousePressed = false;
-                    scene.clear();
-                }
-                else {
-                    if (fireClock.getElapsedTime().asSeconds() > attackSpeed) {
-                        fire(world, window);
-                        fireClock.restart();
-                    }
-                    mousePressed = true;
-                }
-            }
-            if (event.type == sf::Event::MouseButtonReleased) {
-                mousePressed = false;
-            }
+            mouseState.handleMouseEvents(event);
         }
-        if (mousePressed && fireClock.getElapsedTime().asSeconds() > attackSpeed) {
-            fire(world, window);
+        if (mouseState.leftButtonPressed()) {
+            auto pos = sf::Mouse::getPosition(window);
+            character->moveToPosition(pos.x, pos.y);
+        }
+        else {
+            character->stopMoving();
+        }
+        if (mouseState.rightButtonPressed() && fireClock.getElapsedTime().asSeconds() > attackSpeed) {
+            fire(world, window, *character.get());
             fireClock.restart();
         }
 
@@ -97,6 +95,9 @@ int main()
         window.clear();
         scene.render(window);
         window.display();
+
+
+
         frameNumber++;
         if (fpsClock.getElapsedTime().asSeconds() > 1.f) {
             std::cout << frameNumber / fpsClock.getElapsedTime().asSeconds() << std::endl;

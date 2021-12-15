@@ -1,14 +1,19 @@
 #pragma once
 #include "box2d/box2d.h"
 
+
+
 class CollisionHandler
 {
 public:
-	virtual ~CollisionHandler() {}
-	CollisionHandler(bool trackCollision, long long identifier);
-	virtual void collideWith(b2Fixture* otherBody);
+	virtual ~CollisionHandler() = default;
+	virtual void collideWith(b2Fixture* other) = 0;
+};
+
+struct BodyUserData
+{
 	const long long identifier;
-	const bool trackCollision;
+	CollisionHandler* const collisionHandler;
 };
 
 extern long long GetFixtureIdentifier(b2Fixture* fixture);

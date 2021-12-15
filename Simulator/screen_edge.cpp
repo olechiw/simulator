@@ -2,9 +2,9 @@
 #include "constants.h"
 #include "contact_listener.h"
 
-class EdgeUserData : public CollisionHandler {
+class EdgeUserData {
 public:
-    EdgeUserData(): CollisionHandler(false, Identifiers::ScreenEdge) {
+    EdgeUserData() {
     }
 };
 
@@ -12,7 +12,7 @@ void createScreenEdges(b2World* world, unsigned int width, unsigned int height) 
     b2BodyDef edgeBodyDefinition;
     edgeBodyDefinition.position.Set(0.f, 0.f);
     b2Body* edgeBody = world->CreateBody(&edgeBodyDefinition);
-    edgeBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(new EdgeUserData());
+    edgeBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(new BodyUserData{ Identifiers::ScreenEdge, nullptr });
     b2EdgeShape edgeShape;
 
     b2Vec2 lowerLeftCorner = b2Vec2(0, 0);
