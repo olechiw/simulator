@@ -4,29 +4,27 @@
 #include <iostream>
 
 #include "contact_listener.h"
-#include "body_user_data.h"
-#include "renderable.h"
+#include "scene.h"
 #include "constants.h"
 #include "object_config.h"
 
-class Circle : public SceneObject
+class Circle
 {
 public:
-	Circle(std::shared_ptr<b2World> world, const ObjectConfig &objectConfig, int radiusPixels = 10, const sf::Color color = sf::Color::Red);
+	Circle(std::shared_ptr<b2World> world, const ObjectConfig &objectConfig, float radiusPixels = 10.f, const sf::Color color = sf::Color::Red);
 	~Circle();
-	b2Body* getBody() override;
+	b2Body* getBody();
 	const sf::Vector2f& getPosition() const;
-protected:
-	void destroy() override;
 private:
 	b2Body* body;
 	sf::CircleShape shape;
 	std::shared_ptr<b2World> world;
 	int bounced = 0;
-
+	bool destroyed = false;
 public:
-	// Inherited via SceneObject
-	virtual void render(sf::RenderWindow& window) override;
-	virtual void onPhysicsUpdated() override;
+	void draw(sf::RenderWindow& window) const;
+	void onPhysicsUpdated();
+	bool isDestroyed() const;
+	void destroy();
 };
 

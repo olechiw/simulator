@@ -1,19 +1,16 @@
 #include "character.h"
 #include "math.h"
-#include "body_user_data.h"
 #include <iostream>
 
-Character::Character(std::shared_ptr<b2World> worldIn, std::shared_ptr<CollisionHandler> collisionHandler, int x, int y) : world(worldIn)
+Character::Character(std::shared_ptr<b2World> worldIn, int x, int y) : world(worldIn)
 {
     ObjectConfig circleConfig;
     circleConfig.Collision.CategoryBits = BitMasks::Character;
     circleConfig.Collision.MaskBits = BitMasks::EnemyBullet | BitMasks::ScreenEdge;
-    circleConfig.Identifier = ObjectTypes::Character;
-    circleConfig.CollisionHandler = collisionHandler;
+    circleConfig.Info = new ObjectIdentifier(ObjectType::Character);
     circleConfig.InitialPosition = { x, y };
     circleConfig.Elasticity = 0.f;
     this->shape = std::shared_ptr<Circle>(new Circle(worldIn, circleConfig, Character::RadiusPixels, sf::Color::White));
-    Scene::getInstance().addObject(this->shape);
 }
 
 void Character::moveToPosition(int x, int y)
@@ -27,8 +24,6 @@ void Character::moveToPosition(int x, int y)
         return;
     }
     auto direction = Math::pointAngleRadians(pos.x, pos.y, x, y);
-    // std::cout << pos.x - x << "\t" << pos.y - y << "\t" << std::atan(static_cast<float>(pos.y - y) / pos.x - x) * 180 / Math::pi << std::endl;
-    std::cout << direction * 180.0 / Math::pi << std::endl;
     b2Vec2 speed;
     speed.x = std::cos(direction) * Character::MoveSpeed;
     speed.y = std::sin(direction) * Character::MoveSpeed;
@@ -48,7 +43,17 @@ void Character::stopMoving()
     this->shape->getBody()->SetLinearVelocity(b2Vec2(0, 0));
 }
 
+void Character::draw(sf::RenderWindow& window) const
+{
+    this->shape->draw(window);
+}
+
 const sf::Vector2f& Character::getPosition() const
 {
     return this->shape->getPosition();
+}
+
+void Character::onPhysicsUpdated()
+{
+    this->shape->onPhysicsUpdated();
 }

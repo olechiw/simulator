@@ -1,6 +1,6 @@
 #include "circle.h"
 
-Circle::Circle(std::shared_ptr<b2World> worldIn, const ObjectConfig& objectConfig, int radiusPixels, const sf::Color color) : world(worldIn)
+Circle::Circle(std::shared_ptr<b2World> worldIn, const ObjectConfig& objectConfig, float radiusPixels, const sf::Color color) : world(worldIn)
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -48,13 +48,18 @@ const sf::Vector2f& Circle::getPosition() const
 
 void Circle::destroy()
 {
-    delete reinterpret_cast<BodyUserData*>(this->body->GetUserData().pointer);
+    this->destroyed = true;
+    delete reinterpret_cast<ObjectIdentifier*>(this->body->GetUserData().pointer);
     this->world->DestroyBody(this->body);
-    SceneObject::destroy();
+}
+
+bool Circle::isDestroyed() const
+{
+    return this->destroyed;
 }
 
 
-void Circle::render(sf::RenderWindow& window)
+void Circle::draw(sf::RenderWindow& window) const
 {
     window.draw(this->shape);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 namespace PhysicsConstants {
 	constexpr float timeStep = 1.f / 144.f;
 	constexpr float pixelsPerMeter = 100.f;
@@ -6,12 +7,16 @@ namespace PhysicsConstants {
 	constexpr int positionIterations = 3;
 }
 
-enum ObjectType {
-	PlayerBullet,
-	ScreenEdge,
-	Character,
-	Enemy
-};
+
+namespace ObjectType {
+	enum ObjectType {
+		PlayerBullet,
+		ScreenEdge,
+		Character,
+		Enemy
+	};
+}
+
 
 namespace BitMasks {
 	constexpr int16_t PlayerBullet = 1;

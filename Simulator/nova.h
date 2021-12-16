@@ -10,9 +10,6 @@
 
 class Nova : public Ability
 {
-public:
-	Nova(ObjectConfig::collision collisionBits) {
-	}
 private:
 	ObjectConfig::collision collisionBits;
 
@@ -23,35 +20,32 @@ private:
 
 
 public:
-	Nova(std::shared_ptr<b2World> worldIn, std::shared_ptr<sf::RenderWindow> windowIn) : world(worldIn), window(windowIn) {
+	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::collision collisionBitsIn) : world(worldIn), collisionBits(collisionBitsIn) {
 
 	}
 
-	void render() {
+	void draw(sf::RenderWindow& window) const override {
 		for (auto& proj : projectiles) {
-			proj.second->render(*this->window.get());
+			proj.second->draw(window);
 		}
 	}
 
 	virtual void fire(int originX, int originY, int, int) override {
 		std::vector<std::pair<int, int>> shots = {
-			{10, 10},
-			{-10, 10},
-			{-10, -10},
-			{10, -10}
+			{20.f, 20.f},
+			{-20.f, 20.f},
+			{-20.f, -20.f},
+			{20.f, -20.f}
 		};
 		for (const auto& shot : shots) {
-			ObjectIdentifier projIdentifier;
+			ObjectIdentifier projIdentifier(ObjectType::PlayerBullet);
 			ObjectConfig projConfig;
-			projConfig.Info = new ObjectInfo {
-				projIdentifier,
-				PlayerBullet
-			};
+			projConfig.Info = new ObjectIdentifier(projIdentifier);
 			projConfig.Collision = this->collisionBits;
-			projConfig.Elasticity = 1.001;
+			projConfig.Elasticity = 1.001f;
 			projConfig.InitialPosition = { originX + shot.first, originY + shot.second };
-			auto circle = std::make_shared<Circle>(this->world, projConfig, 15, sf::Color::Blue);
-			circle->getBody()->ApplyForceToCenter({ shot.first, shot.second }, true);
+			auto circle = std::make_shared<Circle>(this->world, projConfig, 10.f, sf::Color::Blue);
+			circle->getBody()->ApplyForceToCenter({ static_cast<float>(shot.first), static_cast<float>(shot.second) }, true);
 			this->projectiles.emplace(projIdentifier, circle);
 		}
 	}
@@ -60,13 +54,17 @@ public:
 		for (auto it = this->projectiles.begin(); it != projectiles.end();)
 		{
 			auto identifier = it->first;
-			std::shared_ptr<std::vector<ObjectInfo>> events = Scene.getCollisions(identifier);
+			std::shared_ptr<std::unordered_set<ObjectIdentifier>> events = Scene.getCollisions(identifier);
 			if (events && !events->empty()) {
 				events->clear();
-				Scene.freeObject(identifier);
-				it = this->projectiles.erase(identifier);
+				// projectile lifetimes ?? 
+				// spawn enemies
+				// other fun stuff
+				// Scene.freeObject(identifier);
+				// it = this->projectiles.erase(it);
 			}
 			else {
+				it->second->onPhysicsUpdated();
 				it++;
 			}
 

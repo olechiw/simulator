@@ -12,7 +12,7 @@ void createScreenEdges(std::shared_ptr<b2World> world, unsigned int width, unsig
     b2BodyDef edgeBodyDefinition;
     edgeBodyDefinition.position.Set(0.f, 0.f);
     b2Body* edgeBody = world->CreateBody(&edgeBodyDefinition);
-    edgeBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(new BodyUserData{ ObjectTypes::ScreenEdge, nullptr });
+    edgeBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(new ObjectIdentifier(ObjectType::ScreenEdge));
     b2EdgeShape edgeShape;
 
     b2Vec2 lowerLeftCorner = b2Vec2(0, 0);

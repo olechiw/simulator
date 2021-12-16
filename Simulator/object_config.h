@@ -10,5 +10,5 @@ struct ObjectConfig {
 	} Collision;
 	sf::Vector2i InitialPosition;
 	float Elasticity = 1.001f;
-	ObjectInfo *Info;
+	ObjectIdentifier *Info;
 };

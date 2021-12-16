@@ -2,110 +2,34 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <box2d/box2d.h>
+#include <memory>
 
-#include "constants.h"
-#include "contact_listener.h"
+#include "game.h"
 #include "screen_edge.h"
-#include "scene.h"
-#include "mouse_state.h"
-#include "character.h"
+#include "nova.h"
 
 const auto screenSize = 500.f;
+const auto screenSizeInt = static_cast<unsigned int>(screenSize);
 const auto speed = 10.f;
 const auto attackSpeed = .1f;
 
-const std::vector<sf::Color> colors = {
-    sf::Color::Red, sf::Color::Blue, sf::Color::Green, sf::Color::Cyan, sf::Color::Magenta, sf::Color::Yellow
-};
-
-/*
-void fire(std::shared_ptr<b2World> world, sf::RenderWindow& window, const Character &character) {
-    auto& scene = Scene::getInstance();
-    const auto& pos = character.getPosition();
-
-    auto ball = std::make_shared<Circle>(world, pos.x + 10, pos.y + 10, colors[std::rand() % colors.size()]);
-    scene.addObject(ball);
-    ball->getBody()->ApplyForceToCenter(b2Vec2(-speed, speed), true);
-
-    ball = std::make_shared<Circle>(world, pos.x - 10, pos.y + 10, colors[std::rand() % colors.size()]);
-    scene.addObject(ball);
-    ball->getBody()->ApplyForceToCenter(b2Vec2(speed, speed), true);
-
-    ball = std::make_shared<Circle>(world, pos.x - 10, pos.y - 10, colors[std::rand() % colors.size()]);
-    scene.addObject(ball);
-    ball->getBody()->ApplyForceToCenter(b2Vec2(-speed, -speed), true);
-
-    ball = std::make_shared<Circle>(world, pos.x + 10, pos.y - 10, colors[std::rand() % colors.size()]);
-    scene.addObject(ball);
-    ball->getBody()->ApplyForceToCenter(b2Vec2(speed, -speed), true);
-}
-*/
-
 int main()
 {
-    auto& scene = Scene::getInstance();
     b2Vec2 gravity(0.f, 0.f); // No gravity
     auto world = std::make_shared<b2World>(gravity);
 
     ContactListener contactListener;
     world->SetContactListener(&contactListener);
     
-    createScreenEdges(world, screenSize, screenSize);
+    createScreenEdges(world, screenSizeInt, screenSizeInt);
 
-    sf::RenderWindow window(sf::VideoMode(static_cast<unsigned int>(screenSize), static_cast<unsigned int>(screenSize)), "Simulator");
+    std::shared_ptr<sf::RenderWindow> window = std::make_shared<sf::RenderWindow>(sf::VideoMode(screenSizeInt, screenSizeInt), "Simulator");
 
-    sf::Clock fireClock;
+    std::shared_ptr<Nova> ability = std::make_shared<Nova>(world, ObjectConfig::collision{ BitMasks::PlayerBullet, BitMasks::Enemy | BitMasks::ScreenEdge });
 
-    sf::Clock physicsClock;
-
-    sf::Clock fpsClock;
-
-    MouseState mouseState;
-
-    auto character = std::shared_ptr<Character>(new Character(world, std::shared_ptr<CollisionHandler>(), 250, 250));
-
-    float frameNumber = 0;
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-            mouseState.handleMouseEvents(event);
-        }
-        if (!mouseState.rightButtonPressed() && mouseState.leftButtonPressed()) {
-            auto pos = sf::Mouse::getPosition(window);
-            character->moveToPosition(pos.x, pos.y);
-        }
-        else {
-            character->stopMoving();
-        }
-        if (mouseState.rightButtonPressed() && fireClock.getElapsedTime().asSeconds() > attackSpeed) {
-            // fire(world, window, *character.get());
-            fireClock.restart();
-        }
-
-        if (physicsClock.getElapsedTime().asSeconds() > PhysicsConstants::timeStep) {
-            world->Step(PhysicsConstants::timeStep, PhysicsConstants::velocityIterations, PhysicsConstants::positionIterations);
-            scene.dispatchPhysicsUpdate();
-            physicsClock.restart();
-        }
-        window.clear();
-        scene.render(window);
-        window.display();
-
-
-
-        frameNumber++;
-        if (fpsClock.getElapsedTime().asSeconds() > 1.f) {
-            std::cout << frameNumber / fpsClock.getElapsedTime().asSeconds() << std::endl;
-            fpsClock.restart();
-            frameNumber = 0;
-        }
-    }
-    scene.clear();
+    Game game(world, window);
+    game.setAbility(ability);
+    game.run();
 
     return 0;
 }
