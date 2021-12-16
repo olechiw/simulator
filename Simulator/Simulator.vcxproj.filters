@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -16,46 +12,40 @@
     <Filter Include="External">
       <UniqueIdentifier>{d023fe57-3538-43a0-89bb-5296fed568e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\scene">
-      <UniqueIdentifier>{dfb4cbf6-5877-4d1d-bf76-9a9bbd483d03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\objects">
-      <UniqueIdentifier>{68e688b8-6628-4bfd-971b-773d21261438}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\scene">
       <UniqueIdentifier>{580329d4-d6f5-424e-ac9e-cc4c0c2cd45c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\objects">
       <UniqueIdentifier>{f03808b3-12aa-4a5f-94e9-c2ec38bf261a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\abilities">
+      <UniqueIdentifier>{48fba27a-119c-4b08-898a-e9d9d56ed9de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\parameters">
+      <UniqueIdentifier>{2c46d05c-3d8c-4d24-9d8a-d5e61519581d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\controls">
+      <UniqueIdentifier>{6efcb8e7-c9c4-46c7-bbce-6d27a269204b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="contact_listener.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ball.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="renderable.cpp">
-      <Filter>Source Files\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="scene.cpp">
-      <Filter>Source Files\scene</Filter>
-    </ClCompile>
     <ClCompile Include="screen_edge.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="character.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="mouse_state.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>Source Files\parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="circle.cpp">
+      <Filter>Source Files\objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,32 +84,50 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="constants.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="nova.h">
+      <Filter>Source Files\abilities</Filter>
     </ClInclude>
-    <ClInclude Include="contact_listener.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ability.h">
+      <Filter>Source Files\abilities</Filter>
     </ClInclude>
-    <ClInclude Include="renderable.h">
-      <Filter>Header Files\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>Header Files\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="ball.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="screen_edge.h">
-      <Filter>Header Files\objects</Filter>
+    <ClInclude Include="circle.h">
+      <Filter>Source Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="screen_edge.h">
+      <Filter>Source Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_object.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Source Files\parameters</Filter>
     </ClInclude>
     <ClInclude Include="math.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\parameters</Filter>
     </ClInclude>
     <ClInclude Include="mouse_state.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="object_config.h">
+      <Filter>Source Files\parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="contact_listener.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="object_identifier.h">
+      <Filter>Source Files\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="event_consumer.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

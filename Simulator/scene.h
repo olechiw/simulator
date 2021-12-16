@@ -1,21 +1,41 @@
 #pragma once
-#include "renderable.h"
-#include <list>
-class Scene
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+#include "object_identifier.h"
+#include "constants.h"
+
+struct ObjectInfo
 {
-public:
-	void dispatchPhysicsUpdate();
-	void render(sf::RenderWindow &window);
-	template <typename T>
-	void addObject(T object);
-	void clear();
-	static Scene& getInstance();
-private:
-	std::list<std::shared_ptr<Renderable>> objects;
+	const ObjectIdentifier identifier;
+	const ObjectType type;
 };
 
-template <typename T>
-void Scene::addObject(T object)
+class SceneType
 {
-	this->objects.push_back(std::static_pointer_cast<Renderable>(object));
-}
+public:
+	void registerCollision(ObjectInfo a, ObjectInfo b) {
+		if (!this->collisions[a.identifier])
+			this->collisions[a.identifier] = std::make_shared<std::unordered_set<ObjectIdentifier>>();
+		if (!this->collisions[b.identifier])
+			this->collisions[b.identifier] = std::make_shared<std::unordered_set<ObjectIdentifier>>();
+
+		this->collisions[a.identifier]->insert(b);
+		this->collisions[b.identifier]->insert(a);
+	}
+
+	// May return nullptr
+	std::shared_ptr<std::unordered_set<ObjectInfo>> getCollisions(ObjectIdentifier identifier) {
+		std::shared_ptr<std::unordered_set<ObjectInfo>> objectEvents = this->collisions[identifier];
+		return objectEvents;
+	}
+
+	void freeObject(ObjectIdentifier object) {
+		this->collisions.erase(object);
+	}
+
+private:
+	std::unordered_map < ObjectIdentifier, std::shared_ptr < std::unordered_set<ObjectInfo> > > collisions;
+};
+
+static SceneType Scene;

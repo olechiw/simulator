@@ -6,12 +6,12 @@ namespace PhysicsConstants {
 	constexpr int positionIterations = 3;
 }
 
-namespace Identifiers {
-		constexpr long long Projectile = 1;
-		constexpr long long ScreenEdge = 1 << 1;
-		constexpr long long Character = 1 << 2;
-		constexpr long long Enemy = 1 << 3;
-}
+enum ObjectType {
+	PlayerBullet,
+	ScreenEdge,
+	Character,
+	Enemy
+};
 
 namespace BitMasks {
 	constexpr int16_t PlayerBullet = 1;

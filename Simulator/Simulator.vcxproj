@@ -139,14 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ball.cpp" />
-    <ClCompile Include="contact_listener.cpp" />
+    <ClCompile Include="circle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="mouse_state.cpp" />
-    <ClCompile Include="renderable.cpp" />
-    <ClCompile Include="scene.cpp" />
     <ClCompile Include="screen_edge.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,15 +160,21 @@
     <None Include="sfml-window-d-2.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ball.h" />
+    <ClInclude Include="circle.h" />
     <ClInclude Include="contact_listener.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="character.h" />
+    <ClInclude Include="event_consumer.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="mouse_state.h" />
-    <ClInclude Include="renderable.h" />
+    <ClInclude Include="nova.h" />
+    <ClInclude Include="object_config.h" />
+    <ClInclude Include="object_identifier.h" />
+    <ClInclude Include="scene_object.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="screen_edge.h" />
+    <ClInclude Include="ability.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

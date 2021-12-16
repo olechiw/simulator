@@ -8,11 +8,11 @@ public:
     }
 };
 
-void createScreenEdges(b2World* world, unsigned int width, unsigned int height) {
+void createScreenEdges(std::shared_ptr<b2World> world, unsigned int width, unsigned int height) {
     b2BodyDef edgeBodyDefinition;
     edgeBodyDefinition.position.Set(0.f, 0.f);
     b2Body* edgeBody = world->CreateBody(&edgeBodyDefinition);
-    edgeBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(new BodyUserData{ Identifiers::ScreenEdge, nullptr });
+    edgeBody->GetUserData().pointer = reinterpret_cast<uintptr_t>(new BodyUserData{ ObjectTypes::ScreenEdge, nullptr });
     b2EdgeShape edgeShape;
 
     b2Vec2 lowerLeftCorner = b2Vec2(0, 0);
