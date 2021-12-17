@@ -5,33 +5,17 @@
 
 class ObjectIdentifier {
 public:
-	ObjectIdentifier(const ObjectType& typeIn)
-	{
-		identifier = NextIdentifier++;
-		this->type = typeIn;
-	}
+	ObjectIdentifier(const ObjectType& typeIn);
 
-	const ObjectType& getType() const {
-		return this->type;
-	}
+	const ObjectType& getType() const;
 	
-	ObjectIdentifier &operator=(ObjectIdentifier& other) {
-		this->identifier = other.identifier;
-	}
+	ObjectIdentifier& operator=(ObjectIdentifier& other);
 
-	bool operator==(const ObjectIdentifier& other) const {
-		return other.identifier == this->identifier;
-	}
+	bool operator==(const ObjectIdentifier& other) const;
 	
-	ObjectIdentifier& operator=(const ObjectIdentifier& other) {
-		this->identifier = other.identifier;
-		this->type = other.type;
-		return *this;
-	}
+	ObjectIdentifier& operator=(const ObjectIdentifier& other);
 
-	size_t getIdentifier() const {
-		return this->identifier;
-	}
+	size_t getIdentifier() const;
 private:
 	static size_t NextIdentifier;
 	ObjectType type;

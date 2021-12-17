@@ -4,20 +4,27 @@
 
 #include "drawable.h"
 #include "event_consumer.h"
-#include "scene.h"
+#include "contact_event_store.h"
 #include "shape.h"
+
+using std::shared_ptr;
+using std::list;
+using std::pair;
 
 class Enemies : public Drawable, public EventConsumer
 {
 public:
-	Enemies(std::shared_ptr<b2World> world);
+	Enemies(shared_ptr<b2World> world, shared_ptr<ContactEventStore> contactStore);
 	void onPhysicsUpdated() override;
 	void draw(sf::RenderWindow& window) const override;
 private:
-	std::shared_ptr<b2World> world;
-	sf::Clock spawnClock;
 	static constexpr float spawnTime = 1.f;
 	static constexpr size_t maxObjects = 4;
-	std::list<std::pair<ObjectIdentifier, std::shared_ptr<Shape>>> objects;
+
+	shared_ptr<b2World> world;
+	shared_ptr<ContactEventStore> contactStore;
+
+	sf::Clock spawnClock;
+	list<pair<ObjectIdentifier, shared_ptr<Shape>>> objects;
 };
 

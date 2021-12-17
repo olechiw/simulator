@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "contact_listener.h"
-#include "scene.h"
+#include "object_identifier.h"
 #include "constants.h"
 #include "object_config.h"
 #include "drawable.h"

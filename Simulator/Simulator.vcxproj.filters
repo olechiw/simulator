@@ -12,9 +12,6 @@
     <Filter Include="External">
       <UniqueIdentifier>{d023fe57-3538-43a0-89bb-5296fed568e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\scene">
-      <UniqueIdentifier>{580329d4-d6f5-424e-ac9e-cc4c0c2cd45c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\objects">
       <UniqueIdentifier>{f03808b3-12aa-4a5f-94e9-c2ec38bf261a}</UniqueIdentifier>
     </Filter>
@@ -29,6 +26,9 @@
     </Filter>
     <Filter Include="Source Files\interfaces">
       <UniqueIdentifier>{2f7c0fdc-483c-48aa-8c2e-06700c9f9f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\contact">
+      <UniqueIdentifier>{580329d4-d6f5-424e-ac9e-cc4c0c2cd45c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,13 +51,16 @@
       <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="object_identifier.cpp">
-      <Filter>Source Files\scene</Filter>
+      <Filter>Source Files\contact</Filter>
     </ClCompile>
     <ClCompile Include="enemies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scene.cpp">
-      <Filter>Source Files\scene</Filter>
+    <ClCompile Include="contact_event_store.cpp">
+      <Filter>Source Files\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="contact_listener.cpp">
+      <Filter>Source Files\contact</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,11 +111,8 @@
     <ClInclude Include="screen_edge.h">
       <Filter>Source Files\objects</Filter>
     </ClInclude>
-    <ClInclude Include="scene_object.h">
-      <Filter>Source Files\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>Source Files\scene</Filter>
+    <ClInclude Include="contact_event_store.h">
+      <Filter>Source Files\contact</Filter>
     </ClInclude>
     <ClInclude Include="constants.h">
       <Filter>Source Files\parameters</Filter>
@@ -127,10 +127,10 @@
       <Filter>Source Files\parameters</Filter>
     </ClInclude>
     <ClInclude Include="contact_listener.h">
-      <Filter>Source Files\scene</Filter>
+      <Filter>Source Files\contact</Filter>
     </ClInclude>
     <ClInclude Include="object_identifier.h">
-      <Filter>Source Files\scene</Filter>
+      <Filter>Source Files\contact</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
       <Filter>Source Files</Filter>

@@ -1,6 +1,4 @@
 #include "screen_edge.h"
-#include "constants.h"
-#include "contact_listener.h"
 
 class EdgeUserData {
 public:

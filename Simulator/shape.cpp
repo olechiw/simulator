@@ -10,7 +10,7 @@ Shape::Shape(std::shared_ptr<b2World> worldIn, const ObjectConfig& objectConfig,
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = shapeDefinition.b2Shape.get();
-    fixtureDef.density = 0.0f;
+    fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.0f;
     fixtureDef.restitution = objectConfig.Elasticity;
     fixtureDef.filter.categoryBits = objectConfig.Collision.CategoryBits;
@@ -91,7 +91,7 @@ ShapeDefinition MakePolygon(float radius, sf::Color color, int size)
     b2Vec2* vertices = new b2Vec2[size];
     for (int i = 0; i < size; ++i)
     {
-        float angle = (2.f * i * Math::pi / size) + Math::pi / 2.f;
+        float angle = (2.f * i * static_cast<float>(Math::pi) / size) + Math::pi / 2.f;
         vertices[i] = {
             radius * std::cos(angle) / PhysicsConstants::pixelsPerMeter,
             radius * std::sin(angle) / PhysicsConstants::pixelsPerMeter

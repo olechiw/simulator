@@ -6,17 +6,18 @@
 #include "mouse_state.h"
 #include "ability.h"
 #include "enemies.h"
+#include "contact_event_store.h"
 
 using std::shared_ptr;
 
 class Game
 {
 public:
-	Game(shared_ptr<b2World> world, shared_ptr<sf::RenderWindow> window): window(window), world(world)
+	Game(shared_ptr<b2World> world, shared_ptr<sf::RenderWindow> window, shared_ptr<ContactEventStore> contactStore): window(window), world(world), contactStore(contactStore)
 	{
 		// todo: screen size somewhere else
 		this->character = std::make_shared<Character>(world, 250, 250);
-		this->enemies = std::make_shared<Enemies>(world);
+		this->enemies = std::make_shared<Enemies>(world, contactStore);
 	}
 
 	template<typename T>
@@ -91,6 +92,7 @@ private:
 	std::shared_ptr<Character> character;
 	std::shared_ptr<Enemies> enemies;
 	std::shared_ptr<Ability> activeAbility;
+	std::shared_ptr<ContactEventStore> contactStore;
 	std::shared_ptr<b2World> world;
 	std::shared_ptr<sf::RenderWindow> window;
 

@@ -139,7 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="contact_listener.cpp" />
+    <ClCompile Include="contact_event_store.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="enemies.cpp" />
     <ClCompile Include="main.cpp" />
@@ -176,8 +177,7 @@
     <ClInclude Include="nova.h" />
     <ClInclude Include="object_config.h" />
     <ClInclude Include="object_identifier.h" />
-    <ClInclude Include="scene_object.h" />
-    <ClInclude Include="scene.h" />
+    <ClInclude Include="contact_event_store.h" />
     <ClInclude Include="screen_edge.h" />
     <ClInclude Include="ability.h" />
   </ItemGroup>

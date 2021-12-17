@@ -1,17 +1,14 @@
 #pragma once
 #include <box2d/box2d.h>
-#include "scene.h"
+#include "contact_event_store.h"
 
 class ContactListener : public b2ContactListener
 {
+public:
+	ContactListener(std::shared_ptr<ContactEventStore> contactStore);
+	void BeginContact(b2Contact* contact) override;
+	void EndContact(b2Contact* contact) override;
 private:
-	void BeginContact(b2Contact* contact) override {
-		b2Fixture* fixture1 = contact->GetFixtureA();
-		b2Fixture* fixture2 = contact->GetFixtureB();
-		auto userData1 = reinterpret_cast<ObjectIdentifier*>(fixture1->GetBody()->GetUserData().pointer);
-		auto userData2 = reinterpret_cast<ObjectIdentifier*>(fixture2->GetBody()->GetUserData().pointer);
-		assert(userData1);
-		assert(userData2);
-		Scene.registerCollision(*userData1, *userData2);
-	}
+	std::shared_ptr<ContactEventStore> contactStore;
+	void handleContact(b2Contact* contact, ContactEventStore::ContactType type);
 };

@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "scene.h"
+#include "contact_event_store.h"
 #include "contact_listener.h"
 #include "object_config.h"
 #include "ability.h"
@@ -9,6 +9,7 @@
 #include <queue>
 #include <iostream>
 
+using std::shared_ptr;
 
 class Nova : public Ability
 {
@@ -16,9 +17,10 @@ private:
 	ObjectConfig::collision collisionBits;
 
 	std::deque < std::pair<ObjectIdentifier, std::shared_ptr<Shape>>> projectiles;
+	std::unordered_map< ObjectIdentifier, bool> projectileHasBounced;
 
-	std::shared_ptr<b2World> world;
-	std::shared_ptr<sf::RenderWindow> window;
+	shared_ptr<b2World> world;
+	shared_ptr<ContactEventStore> contactStore;
 
 	constexpr static size_t maximumProjectiles = 200;
 	constexpr static float dist = 20.f;
@@ -39,11 +41,11 @@ private:
 
 	void cleanup(ObjectIdentifier obj)
 	{
-		Scene.freeObject(obj);
+		contactStore->freeObject(obj);
 	}
 
 public:
-	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::collision collisionBitsIn) : world(worldIn), collisionBits(collisionBitsIn) {
+	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::collision collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn) : world(worldIn), collisionBits(collisionBitsIn), contactStore(contactStoreIn) {
 
 	}
 
@@ -67,7 +69,7 @@ public:
 			projConfig.Collision = this->collisionBits;
 			projConfig.Elasticity = 1.001f;
 			projConfig.InitialPosition = { originX + shot.first*dist, originY + shot.second*dist };
-			auto circle = std::make_shared<Shape>(this->world, projConfig, MakeCircle(10.f, sf::Color::Green));
+			auto circle = std::make_shared<Shape>(this->world, projConfig, MakePolygon(10.f, sf::Color::Green, 3));
 			circle->getBody()->SetLinearVelocity({ static_cast<float>(shot.first*speed), static_cast<float>(shot.second*speed) });
 			addProjectile(projIdentifier, circle);
 		}
@@ -77,10 +79,43 @@ public:
 		for (auto it = this->projectiles.begin(); it != projectiles.end();)
 		{
 			auto identifier = it->first;
-			std::shared_ptr<std::unordered_set<ObjectIdentifier>> events = Scene.getCollisions(identifier);
-			bool projValid = true;
-			if (events && !events->empty()) {
-				this->cleanup(it->first);
+			auto events = contactStore->popEvents(identifier);
+			bool destroyProjectile = false;
+			if (events.beginContactEvents) {
+				for (auto& event : *events.beginContactEvents.get()) 
+				{
+					if (event.getType() == ObjectType::Enemy)
+					{
+						destroyProjectile = true;
+						break;
+					}
+					if (event.getType() == ObjectType::ScreenEdge)
+					{
+						if (projectileHasBounced[identifier])
+						{
+							destroyProjectile = true;
+							break;
+						}
+					}
+				}
+			}
+			if (events.endContactEvents) {
+				for (auto& event : *events.endContactEvents.get())
+				{
+					if (event.getType() == ObjectType::ScreenEdge)
+					{
+						projectileHasBounced[identifier] = true;
+						break;
+					}
+				}
+			}
+			
+
+
+
+			if (destroyProjectile)
+			{
+				this->cleanup(identifier);
 				it = this->projectiles.erase(it);
 			}
 			else

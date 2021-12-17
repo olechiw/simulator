@@ -10,7 +10,7 @@ Character::Character(std::shared_ptr<b2World> worldIn, int x, int y) : world(wor
     circleConfig.Info = new ObjectIdentifier(ObjectType::Character);
     circleConfig.InitialPosition = { static_cast<float>(x), static_cast<float>(y) };
     circleConfig.Elasticity = 0.f;
-    this->shape = std::make_shared<Shape>(worldIn, circleConfig, MakeCircle(Character::RadiusPixels, sf::Color::White));
+    this->shape = std::make_shared<Shape>(worldIn, circleConfig, MakePolygon(Character::RadiusPixels, sf::Color::White, 3));
 }
 
 void Character::moveToPosition(int x, int y)
