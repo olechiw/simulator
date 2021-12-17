@@ -8,6 +8,7 @@
 #include "constants.h"
 #include "object_config.h"
 #include "drawable.h"
+#include "simulated.h"
 #include "math.h"
 
 struct ShapeDefinition
@@ -20,7 +21,7 @@ extern ShapeDefinition MakeCircle(float radiusPixels, sf::Color color);
 
 extern ShapeDefinition MakePolygon(float length, sf::Color color, int size);
 
-class Shape : public Drawable
+class Shape : public Drawable, public Simulated
 {
 public:
 	Shape(std::shared_ptr<b2World> world, const ObjectConfig &objectConfig, const ShapeDefinition& shapeDefinition);
@@ -36,7 +37,7 @@ private:
 	bool destroyed = false;
 public:
 	void draw(sf::RenderWindow& window) const override;
-	void onPhysicsUpdated();
+	void onPhysicsUpdated() override;
 	bool isDestroyed() const;
 	void destroy();
 };

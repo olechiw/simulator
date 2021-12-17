@@ -6,6 +6,7 @@
 #include "ability.h"
 #include "shape.h"
 #include "object_identifier.h"
+#include "projectile_behavior.h"
 #include <queue>
 #include <iostream>
 
@@ -14,13 +15,14 @@ using std::shared_ptr;
 class Nova : public Ability
 {
 private:
-	ObjectConfig::collision collisionBits;
+	ObjectConfig::CollisionBits collisionBits;
 
 	std::deque < std::pair<ObjectIdentifier, std::shared_ptr<Shape>>> projectiles;
 	std::unordered_map< ObjectIdentifier, bool> projectileHasBounced;
 
 	shared_ptr<b2World> world;
 	shared_ptr<ContactEventStore> contactStore;
+	ProjectileBehavior projectileBehavior;
 
 	constexpr static size_t maximumProjectiles = 200;
 	constexpr static float dist = 20.f;
@@ -31,7 +33,6 @@ private:
 		this->projectiles.push_front({ obj, proj });
 		if (this->projectiles.size() > maximumProjectiles)
 		{
-			std::cout << this->projectiles.size() << std::endl;
 			auto& toFree = this->projectiles.back();
 			toFree.second->destroy();
 			this->cleanup(toFree.first);
@@ -45,7 +46,11 @@ private:
 	}
 
 public:
-	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::collision collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn) : world(worldIn), collisionBits(collisionBitsIn), contactStore(contactStoreIn) {
+	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::CollisionBits collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn, ProjectileBehavior projectileBehaviorIn) : 
+		world(worldIn), 
+		collisionBits(collisionBitsIn), 
+		contactStore(contactStoreIn), 
+		projectileBehavior(projectileBehaviorIn) {
 
 	}
 
@@ -65,10 +70,10 @@ public:
 		for (const auto& shot : shots) {
 			ObjectIdentifier projIdentifier(ObjectType::PlayerBullet);
 			ObjectConfig projConfig;
-			projConfig.Info = new ObjectIdentifier(projIdentifier);
-			projConfig.Collision = this->collisionBits;
-			projConfig.Elasticity = 1.001f;
-			projConfig.InitialPosition = { originX + shot.first*dist, originY + shot.second*dist };
+			projConfig.identifier = new ObjectIdentifier(projIdentifier);
+			projConfig.collisionBits = this->collisionBits;
+			projConfig.elasticity = 1.001f;
+			projConfig.initialPosition = { originX + shot.first*dist, originY + shot.second*dist };
 			auto circle = std::make_shared<Shape>(this->world, projConfig, MakePolygon(10.f, sf::Color::Green, 3));
 			circle->getBody()->SetLinearVelocity({ static_cast<float>(shot.first*speed), static_cast<float>(shot.second*speed) });
 			addProjectile(projIdentifier, circle);
@@ -78,40 +83,9 @@ public:
 	virtual void onPhysicsUpdated() override {
 		for (auto it = this->projectiles.begin(); it != projectiles.end();)
 		{
-			auto identifier = it->first;
-			auto events = contactStore->popEvents(identifier);
-			bool destroyProjectile = false;
-			if (events.beginContactEvents) {
-				for (auto& event : *events.beginContactEvents.get()) 
-				{
-					if (event.getType() == ObjectType::Enemy)
-					{
-						destroyProjectile = true;
-						break;
-					}
-					if (event.getType() == ObjectType::ScreenEdge)
-					{
-						if (projectileHasBounced[identifier])
-						{
-							destroyProjectile = true;
-							break;
-						}
-					}
-				}
-			}
-			if (events.endContactEvents) {
-				for (auto& event : *events.endContactEvents.get())
-				{
-					if (event.getType() == ObjectType::ScreenEdge)
-					{
-						projectileHasBounced[identifier] = true;
-						break;
-					}
-				}
-			}
-			
-
-
+			ObjectIdentifier identifier = it->first;
+			auto events = this->contactStore->popEvents(identifier);
+			bool destroyProjectile = this->projectileBehavior(events);
 
 			if (destroyProjectile)
 			{

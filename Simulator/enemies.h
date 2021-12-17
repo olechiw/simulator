@@ -3,7 +3,7 @@
 #include <box2d/box2d.h>
 
 #include "drawable.h"
-#include "event_consumer.h"
+#include "simulated.h"
 #include "contact_event_store.h"
 #include "shape.h"
 
@@ -11,7 +11,7 @@ using std::shared_ptr;
 using std::list;
 using std::pair;
 
-class Enemies : public Drawable, public EventConsumer
+class Enemies : public Drawable, public Simulated
 {
 public:
 	Enemies(shared_ptr<b2World> world, shared_ptr<ContactEventStore> contactStore);

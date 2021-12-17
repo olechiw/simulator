@@ -20,6 +20,7 @@ public:
 
 	struct ContactEvents
 	{
+		ObjectIdentifier objectIdentifier;
 		ContactEventSet beginContactEvents;
 		ContactEventSet endContactEvents;
 	};

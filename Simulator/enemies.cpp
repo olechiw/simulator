@@ -11,10 +11,10 @@ void Enemies::onPhysicsUpdated()
 		spawnClock.restart();
 		ObjectIdentifier identifier(ObjectType::Enemy);
 		ObjectConfig config;
-		config.InitialPosition = { (rand() % 400) + 50.f, (rand() % 400) + 50.f };
-		config.Collision = { BitMasks::Enemy, BitMasks::PlayerBullet };
-		config.Elasticity = 0.f;
-		config.Info = new ObjectIdentifier(identifier);
+		config.initialPosition = { (rand() % 400) + 50.f, (rand() % 400) + 50.f };
+		config.collisionBits = { BitMasks::Enemy, BitMasks::PlayerBullet };
+		config.elasticity = 0.f;
+		config.identifier = new ObjectIdentifier(identifier);
 		auto square = std::make_shared<Shape>(this->world, config, MakePolygon(15.f, sf::Color::Red, 4));
 		this->objects.push_back({ identifier, square });
 	}

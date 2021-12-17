@@ -4,11 +4,11 @@
 #include "SFML/Graphics.hpp"
 
 struct ObjectConfig {
-	struct collision {
+	struct CollisionBits {
 		int16_t CategoryBits;
 		int16_t MaskBits;
-	} Collision;
-	sf::Vector2f InitialPosition;
-	float Elasticity = 1.001f;
-	ObjectIdentifier *Info;
+	} collisionBits;
+	sf::Vector2f initialPosition;
+	float elasticity = 1.001f;
+	ObjectIdentifier *identifier;
 };

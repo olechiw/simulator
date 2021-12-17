@@ -1,9 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "event_consumer.h"
+#include "simulated.h"
 #include "drawable.h"
 
-class Ability : public EventConsumer, public Drawable
+class Ability : public Simulated, public Drawable
 {
 public:
 	virtual ~Ability() = default;

@@ -1,7 +1,7 @@
 #pragma once
-class EventConsumer
+class Simulated
 {
 public:
-	virtual ~EventConsumer() = default;
+	virtual ~Simulated() = default;
 	virtual void onPhysicsUpdated() = 0;
 };

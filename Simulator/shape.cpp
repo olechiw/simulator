@@ -4,7 +4,7 @@ Shape::Shape(std::shared_ptr<b2World> worldIn, const ObjectConfig& objectConfig,
 {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(objectConfig.InitialPosition.x / PhysicsConstants::pixelsPerMeter, objectConfig.InitialPosition.y / PhysicsConstants::pixelsPerMeter);
+    bodyDef.position.Set(objectConfig.initialPosition.x / PhysicsConstants::pixelsPerMeter, objectConfig.initialPosition.y / PhysicsConstants::pixelsPerMeter);
 
     this->body = world->CreateBody(&bodyDef);
 
@@ -12,12 +12,12 @@ Shape::Shape(std::shared_ptr<b2World> worldIn, const ObjectConfig& objectConfig,
     fixtureDef.shape = shapeDefinition.b2Shape.get();
     fixtureDef.density = 1.0f;
     fixtureDef.friction = 0.0f;
-    fixtureDef.restitution = objectConfig.Elasticity;
-    fixtureDef.filter.categoryBits = objectConfig.Collision.CategoryBits;
-    fixtureDef.filter.maskBits = objectConfig.Collision.MaskBits;
+    fixtureDef.restitution = objectConfig.elasticity;
+    fixtureDef.filter.categoryBits = objectConfig.collisionBits.CategoryBits;
+    fixtureDef.filter.maskBits = objectConfig.collisionBits.MaskBits;
     this->body->CreateFixture(&fixtureDef);
 
-    this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(objectConfig.Info);
+    this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(objectConfig.identifier);
 
     this->shape = shapeDefinition.shape;
     this->onPhysicsUpdated();
@@ -96,7 +96,6 @@ ShapeDefinition MakePolygon(float radius, sf::Color color, int size)
             radius * std::cos(angle) / PhysicsConstants::pixelsPerMeter,
             radius * std::sin(angle) / PhysicsConstants::pixelsPerMeter
         };
-        std::cout << vertices[i].x << " " << vertices[i].y << std::endl;
     }
     polygon->Set(vertices, size);
     delete[] vertices;

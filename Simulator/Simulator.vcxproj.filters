@@ -30,6 +30,12 @@
     <Filter Include="Source Files\contact">
       <UniqueIdentifier>{580329d4-d6f5-424e-ac9e-cc4c0c2cd45c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\objects\interfaces">
+      <UniqueIdentifier>{9fbe2702-2058-4e64-8f31-f0b9ba633908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\abilities\interfaces">
+      <UniqueIdentifier>{332dd07a-1868-4854-902c-a5bef99bd99d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,9 +56,6 @@
     <ClCompile Include="shape.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
-    <ClCompile Include="object_identifier.cpp">
-      <Filter>Source Files\contact</Filter>
-    </ClCompile>
     <ClCompile Include="enemies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="contact_listener.cpp">
       <Filter>Source Files\contact</Filter>
+    </ClCompile>
+    <ClCompile Include="object_identifier.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,27 +129,33 @@
     <ClInclude Include="mouse_state.h">
       <Filter>Source Files\controls</Filter>
     </ClInclude>
-    <ClInclude Include="object_config.h">
-      <Filter>Source Files\parameters</Filter>
-    </ClInclude>
     <ClInclude Include="contact_listener.h">
-      <Filter>Source Files\contact</Filter>
-    </ClInclude>
-    <ClInclude Include="object_identifier.h">
       <Filter>Source Files\contact</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="enemies.h" />
-    <ClInclude Include="event_consumer.h">
-      <Filter>Source Files\interfaces</Filter>
+    <ClInclude Include="gun.h">
+      <Filter>Source Files\abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="object_identifier.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="drawable.h">
-      <Filter>Source Files\interfaces</Filter>
+      <Filter>Source Files\objects\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="simulated.h">
+      <Filter>Source Files\objects\interfaces</Filter>
     </ClInclude>
     <ClInclude Include="ability.h">
-      <Filter>Source Files\interfaces</Filter>
+      <Filter>Source Files\abilities\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="object_config.h">
+      <Filter>Source Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="projectile_behavior.h">
+      <Filter>Source Files\abilities\interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

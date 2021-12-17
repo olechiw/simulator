@@ -14,6 +14,7 @@ void ContactEventStore::registerContact(ObjectIdentifier a, ObjectIdentifier b, 
 ContactEventStore::ContactEvents ContactEventStore::popEvents(ObjectIdentifier identifier)
 {
 	ContactEvents result = {
+		identifier,
 		this->beginContactEvents[identifier],
 		this->endContactEvents[identifier]
 	};

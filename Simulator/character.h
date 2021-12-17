@@ -3,12 +3,12 @@
 #include <box2d/box2d.h>
 #include "constants.h"
 #include "shape.h"
-#include "event_consumer.h"
+#include "simulated.h"
 #include "math.h"
 
 using std::shared_ptr;
 
-class Character : public EventConsumer, Drawable
+class Character : public Simulated, Drawable
 {
 public:
 	Character(shared_ptr<b2World> world, int x, int y);

@@ -5,11 +5,11 @@
 Character::Character(std::shared_ptr<b2World> worldIn, int x, int y) : world(worldIn)
 {
     ObjectConfig circleConfig;
-    circleConfig.Collision.CategoryBits = BitMasks::Character;
-    circleConfig.Collision.MaskBits = BitMasks::EnemyBullet | BitMasks::ScreenEdge;
-    circleConfig.Info = new ObjectIdentifier(ObjectType::Character);
-    circleConfig.InitialPosition = { static_cast<float>(x), static_cast<float>(y) };
-    circleConfig.Elasticity = 0.f;
+    circleConfig.collisionBits.CategoryBits = BitMasks::Character;
+    circleConfig.collisionBits.MaskBits = BitMasks::EnemyBullet | BitMasks::ScreenEdge;
+    circleConfig.identifier = new ObjectIdentifier(ObjectType::Character);
+    circleConfig.initialPosition = { static_cast<float>(x), static_cast<float>(y) };
+    circleConfig.elasticity = 0.f;
     this->shape = std::make_shared<Shape>(worldIn, circleConfig, MakePolygon(Character::RadiusPixels, sf::Color::White, 3));
 }
 
@@ -23,19 +23,10 @@ void Character::moveToPosition(int x, int y)
         this->stopMoving();
         return;
     }
-    auto direction = Math::pointAngleRadians(pos.x, pos.y, x, y);
-    b2Vec2 speed;
-    speed.x = std::cos(direction) * Character::MoveSpeed;
-    speed.y = std::sin(direction) * Character::MoveSpeed;
-    if (x > pos.x && speed.x < 0)
-        speed.x *= -1;
-    if (x < pos.x && speed.x > 0)
-        speed.x *= -1;
-    if (y > pos.y && speed.y < 0)
-        speed.y *= -1;
-    if (y < pos.y && speed.y > 0)
-        speed.y *= -1;
-    this->shape->getBody()->SetLinearVelocity(speed);
+    auto direction = Math::angleVector(pos.x, pos.y, x, y);
+    direction.x = direction.x * Character::MoveSpeed;
+    direction.y = direction.y * Character::MoveSpeed;
+    this->shape->getBody()->SetLinearVelocity({ direction.x, direction.y });
 }
 
 void Character::stopMoving()
