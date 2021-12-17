@@ -139,7 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="circle.cpp" />
+    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="shape.cpp" />
+    <ClCompile Include="enemies.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="math.cpp" />
@@ -161,10 +163,12 @@
     <None Include="sfml-window-d-2.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="circle.h" />
+    <ClInclude Include="shape.h" />
     <ClInclude Include="contact_listener.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="character.h" />
+    <ClInclude Include="drawable.h" />
+    <ClInclude Include="enemies.h" />
     <ClInclude Include="event_consumer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="math.h" />

@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <memory>
 #include "object_identifier.h"
 #include "constants.h"
 
@@ -32,4 +33,4 @@ private:
 	std::unordered_map < ObjectIdentifier, std::shared_ptr < std::unordered_set<ObjectIdentifier> > > collisions;
 };
 
-static SceneType Scene;
+extern SceneType Scene;

@@ -27,6 +27,9 @@
     <Filter Include="Source Files\controls">
       <UniqueIdentifier>{6efcb8e7-c9c4-46c7-bbce-6d27a269204b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\interfaces">
+      <UniqueIdentifier>{2f7c0fdc-483c-48aa-8c2e-06700c9f9f3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,10 +47,16 @@
     <ClCompile Include="math.cpp">
       <Filter>Source Files\parameters</Filter>
     </ClCompile>
-    <ClCompile Include="circle.cpp">
+    <ClCompile Include="shape.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="object_identifier.cpp">
+      <Filter>Source Files\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="enemies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
       <Filter>Source Files\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,10 +99,7 @@
     <ClInclude Include="nova.h">
       <Filter>Source Files\abilities</Filter>
     </ClInclude>
-    <ClInclude Include="ability.h">
-      <Filter>Source Files\abilities</Filter>
-    </ClInclude>
-    <ClInclude Include="circle.h">
+    <ClInclude Include="shape.h">
       <Filter>Source Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
@@ -129,8 +135,15 @@
     <ClInclude Include="game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="enemies.h" />
     <ClInclude Include="event_consumer.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="drawable.h">
+      <Filter>Source Files\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ability.h">
+      <Filter>Source Files\interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

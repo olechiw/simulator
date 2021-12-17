@@ -5,6 +5,7 @@
 #include "character.h"
 #include "mouse_state.h"
 #include "ability.h"
+#include "enemies.h"
 
 using std::shared_ptr;
 
@@ -13,7 +14,9 @@ class Game
 public:
 	Game(shared_ptr<b2World> world, shared_ptr<sf::RenderWindow> window): window(window), world(world)
 	{
-		this->character = std::shared_ptr<Character>(new Character(world, 250, 250));
+		// todo: screen size somewhere else
+		this->character = std::make_shared<Character>(world, 250, 250);
+		this->enemies = std::make_shared<Enemies>(world);
 	}
 
 	template<typename T>
@@ -67,6 +70,7 @@ private:
 			world->Step(PhysicsConstants::timeStep, PhysicsConstants::velocityIterations, PhysicsConstants::positionIterations);
 			activeAbility->onPhysicsUpdated();
 			character->onPhysicsUpdated();
+			enemies->onPhysicsUpdated();
 			physicsClock.restart();
 		}
 	}
@@ -76,6 +80,7 @@ private:
 		this->window->clear();
 		this->character->draw(*this->window.get());
 		this->activeAbility->draw(*this->window.get());
+		this->enemies->draw(*this->window.get());
 		this->window->display();
 	}
 
@@ -84,6 +89,7 @@ private:
 
 	MouseState mouseState;
 	std::shared_ptr<Character> character;
+	std::shared_ptr<Enemies> enemies;
 	std::shared_ptr<Ability> activeAbility;
 	std::shared_ptr<b2World> world;
 	std::shared_ptr<sf::RenderWindow> window;

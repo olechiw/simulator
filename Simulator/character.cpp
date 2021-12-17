@@ -8,9 +8,9 @@ Character::Character(std::shared_ptr<b2World> worldIn, int x, int y) : world(wor
     circleConfig.Collision.CategoryBits = BitMasks::Character;
     circleConfig.Collision.MaskBits = BitMasks::EnemyBullet | BitMasks::ScreenEdge;
     circleConfig.Info = new ObjectIdentifier(ObjectType::Character);
-    circleConfig.InitialPosition = { x, y };
+    circleConfig.InitialPosition = { static_cast<float>(x), static_cast<float>(y) };
     circleConfig.Elasticity = 0.f;
-    this->shape = std::shared_ptr<Circle>(new Circle(worldIn, circleConfig, Character::RadiusPixels, sf::Color::White));
+    this->shape = std::make_shared<Shape>(worldIn, circleConfig, MakeCircle(Character::RadiusPixels, sf::Color::White));
 }
 
 void Character::moveToPosition(int x, int y)

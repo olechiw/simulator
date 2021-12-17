@@ -8,7 +8,7 @@ struct ObjectConfig {
 		int16_t CategoryBits;
 		int16_t MaskBits;
 	} Collision;
-	sf::Vector2i InitialPosition;
+	sf::Vector2f InitialPosition;
 	float Elasticity = 1.001f;
 	ObjectIdentifier *Info;
 };

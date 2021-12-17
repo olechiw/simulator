@@ -5,13 +5,13 @@
 
 class ObjectIdentifier {
 public:
-	ObjectIdentifier(const ObjectType::ObjectType& typeIn)
+	ObjectIdentifier(const ObjectType& typeIn)
 	{
 		identifier = NextIdentifier++;
 		this->type = typeIn;
 	}
 
-	const ObjectType::ObjectType& getType() const {
+	const ObjectType& getType() const {
 		return this->type;
 	}
 	
@@ -22,13 +22,19 @@ public:
 	bool operator==(const ObjectIdentifier& other) const {
 		return other.identifier == this->identifier;
 	}
+	
+	ObjectIdentifier& operator=(const ObjectIdentifier& other) {
+		this->identifier = other.identifier;
+		this->type = other.type;
+		return *this;
+	}
 
 	size_t getIdentifier() const {
 		return this->identifier;
 	}
 private:
 	static size_t NextIdentifier;
-	ObjectType::ObjectType type;
+	ObjectType type;
 	size_t identifier;
 };
 

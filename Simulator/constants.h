@@ -8,14 +8,12 @@ namespace PhysicsConstants {
 }
 
 
-namespace ObjectType {
-	enum ObjectType {
-		PlayerBullet,
-		ScreenEdge,
-		Character,
-		Enemy
-	};
-}
+enum class ObjectType {
+	PlayerBullet,
+	ScreenEdge,
+	Character,
+	Enemy
+};
 
 
 namespace BitMasks {
