@@ -13,13 +13,9 @@ using std::shared_ptr;
 class Game
 {
 public:
-	Game(shared_ptr<b2World> world, shared_ptr<sf::RenderWindow> window, shared_ptr<ContactEventStore> contactStore): window(window), world(world), contactStore(contactStore)
-	{
-		// todo: screen size somewhere else
-		auto& screenSize = Configuration::getInstance().getScreenSize();
-		this->character = std::make_shared<Character>(world, screenSize.x / 2, screenSize.y / 2);
-		this->enemies = std::make_shared<Enemies>(world, contactStore);
-	}
+	Game(shared_ptr<b2World> world, shared_ptr<sf::RenderWindow> window, shared_ptr<ContactEventStore> contactStore);
+
+	void run();
 
 	template<typename T>
 	void setAbility(std::shared_ptr<T> ability)
@@ -29,62 +25,13 @@ public:
 
 	static constexpr float abilityRate = .1f;
 
-	void run()
-	{
-		while (this->window->isOpen()) {
-			updateInput();
-			updatePhysics();
-			updateScreen();
-		}
-	}
+
 private:
-	void updateInput()
-	{
-		sf::Event event;
-		while (this->window->pollEvent(event)) {
-			if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-			{
-				this->window->close();
-				return;
-			}
-			mouseState.handleMouseEvents(event);
-		}
+	void updateInput();
 
-		if (!mouseState.rightButtonPressed() && mouseState.leftButtonPressed()) {
-			auto pos = sf::Mouse::getPosition(*window.get());
-			character->moveToPosition(pos.x, pos.y);
-		}
-		else {
-			character->stopMoving();
-		}
-		if (mouseState.rightButtonPressed() && abilityClock.getElapsedTime().asSeconds() > abilityRate) {
-			if (abilityClock.getElapsedTime().asSeconds() > abilityRate) {
-				auto pos = sf::Mouse::getPosition(*window.get());
-				this->activeAbility->fire(static_cast<int>(this->character->getPosition().x), static_cast<int>(this->character->getPosition().y), pos.x, pos.y);
-			}
-			abilityClock.restart();
-		}
-	}
+	void updatePhysics();
 
-	void updatePhysics()
-	{
-		if (physicsClock.getElapsedTime().asSeconds() > PhysicsConstants::timeStep) {
-			world->Step(PhysicsConstants::timeStep, PhysicsConstants::velocityIterations, PhysicsConstants::positionIterations);
-			activeAbility->onPhysicsUpdated();
-			character->onPhysicsUpdated();
-			enemies->onPhysicsUpdated();
-			physicsClock.restart();
-		}
-	}
-
-	void updateScreen()
-	{
-		this->window->clear();
-		this->character->draw(*this->window.get());
-		this->activeAbility->draw(*this->window.get());
-		this->enemies->draw(*this->window.get());
-		this->window->display();
-	}
+	void updateScreen();
 
 	sf::Clock abilityClock;
 	sf::Clock physicsClock;

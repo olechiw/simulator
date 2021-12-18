@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="contact_listener.cpp" />
     <ClCompile Include="contact_event_store.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="enemies.cpp" />
     <ClCompile Include="main.cpp" />
