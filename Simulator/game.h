@@ -16,7 +16,8 @@ public:
 	Game(shared_ptr<b2World> world, shared_ptr<sf::RenderWindow> window, shared_ptr<ContactEventStore> contactStore): window(window), world(world), contactStore(contactStore)
 	{
 		// todo: screen size somewhere else
-		this->character = std::make_shared<Character>(world, 250, 250);
+		auto& screenSize = Configuration::getInstance().getScreenSize();
+		this->character = std::make_shared<Character>(world, screenSize.x / 2, screenSize.y / 2);
 		this->enemies = std::make_shared<Enemies>(world, contactStore);
 	}
 
@@ -41,7 +42,7 @@ private:
 	{
 		sf::Event event;
 		while (this->window->pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
 			{
 				this->window->close();
 				return;

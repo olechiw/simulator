@@ -14,9 +14,9 @@ void createScreenEdges(std::shared_ptr<b2World> world, unsigned int width, unsig
     b2EdgeShape edgeShape;
 
     b2Vec2 lowerLeftCorner = b2Vec2(0, 0);
-    b2Vec2 lowerRightCorner = b2Vec2(height / PhysicsConstants::pixelsPerMeter, 0);
-    b2Vec2 upperLeftCorner = b2Vec2(0, width / PhysicsConstants::pixelsPerMeter);
-    b2Vec2 upperRightCorner = b2Vec2(height / PhysicsConstants::pixelsPerMeter, width / PhysicsConstants::pixelsPerMeter);
+    b2Vec2 lowerRightCorner = b2Vec2(width / PhysicsConstants::pixelsPerMeter, 0);
+    b2Vec2 upperLeftCorner = b2Vec2(0, height / PhysicsConstants::pixelsPerMeter);
+    b2Vec2 upperRightCorner = b2Vec2(width / PhysicsConstants::pixelsPerMeter, height / PhysicsConstants::pixelsPerMeter);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &edgeShape;

@@ -164,6 +164,7 @@
     <None Include="sfml-window-d-2.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="configuration.h" />
     <ClInclude Include="gun.h" />
     <ClInclude Include="projectile_behavior.h" />
     <ClInclude Include="shape.h" />

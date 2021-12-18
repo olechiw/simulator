@@ -24,9 +24,6 @@
     <Filter Include="Source Files\controls">
       <UniqueIdentifier>{6efcb8e7-c9c4-46c7-bbce-6d27a269204b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\interfaces">
-      <UniqueIdentifier>{2f7c0fdc-483c-48aa-8c2e-06700c9f9f3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\contact">
       <UniqueIdentifier>{580329d4-d6f5-424e-ac9e-cc4c0c2cd45c}</UniqueIdentifier>
     </Filter>
@@ -158,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="enemies.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="configuration.h">
+      <Filter>Source Files\parameters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

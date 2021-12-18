@@ -4,14 +4,23 @@ Enemies::Enemies(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> cont
 {
 }
 
+static sf::Vector2f getRandomPosition(const sf::Vector2u& screenSize)
+{
+	return {
+		static_cast<float>(rand() % static_cast<int>(screenSize.x - 100) + 50),
+		static_cast<float>(rand() % static_cast<int>(screenSize.y - 100) + 50)
+	};
+}
+
 void Enemies::onPhysicsUpdated()
 {
 	if (spawnClock.getElapsedTime().asSeconds() >= spawnTime && objects.size() < maxObjects)
 	{
+		auto& screenSize = Configuration::getInstance().getScreenSize();
 		spawnClock.restart();
 		ObjectIdentifier identifier(ObjectType::Enemy);
 		ObjectConfig config;
-		config.initialPosition = { (rand() % 400) + 50.f, (rand() % 400) + 50.f };
+		config.initialPosition = getRandomPosition(screenSize);
 		config.collisionBits = { BitMasks::Enemy, BitMasks::PlayerBullet };
 		config.elasticity = 0.f;
 		config.identifier = new ObjectIdentifier(identifier);

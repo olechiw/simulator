@@ -6,6 +6,7 @@
 #include "simulated.h"
 #include "contact_event_store.h"
 #include "shape.h"
+#include "configuration.h"
 
 using std::shared_ptr;
 using std::list;
