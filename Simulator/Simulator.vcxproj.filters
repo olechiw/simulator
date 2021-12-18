@@ -135,7 +135,6 @@
     <ClInclude Include="game.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="enemies.h" />
     <ClInclude Include="gun.h">
       <Filter>Source Files\abilities</Filter>
     </ClInclude>
@@ -156,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="projectile_behavior.h">
       <Filter>Source Files\abilities\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="enemies.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
