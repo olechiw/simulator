@@ -22,7 +22,8 @@ private:
 
 	shared_ptr<b2World> world;
 	shared_ptr<ContactEventStore> contactStore;
-	ProjectileBehavior projectileBehavior;
+	CollisionBehavior collisionBehavior;
+	SpawnBehavior spawnBehavior;
 
 	constexpr static size_t maximumProjectiles = 200;
 	constexpr static float dist = 20.f;
@@ -46,11 +47,12 @@ private:
 	}
 
 public:
-	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::CollisionBits collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn, ProjectileBehavior projectileBehaviorIn) : 
+	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::CollisionBits collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn, CollisionBehavior collisionBehaviorIn, SpawnBehavior spawnBehaviorIn) :
 		world(worldIn), 
 		collisionBits(collisionBitsIn), 
 		contactStore(contactStoreIn), 
-		projectileBehavior(projectileBehaviorIn) {
+		collisionBehavior(collisionBehaviorIn),
+		spawnBehavior(spawnBehaviorIn) {
 
 	}
 
@@ -60,23 +62,11 @@ public:
 		}
 	}
 
-	virtual void fire(int originX, int originY, int, int) override {
-		std::vector<std::pair<int, int>> shots = {
-			{1, 1},
-			{-1, 1},
-			{-1, -1},
-			{1, -1}
-		};
-		for (const auto& shot : shots) {
-			ObjectIdentifier projIdentifier(ObjectType::PlayerBullet);
-			ObjectConfig projConfig;
-			projConfig.identifier = new ObjectIdentifier(projIdentifier);
-			projConfig.collisionBits = this->collisionBits;
-			projConfig.elasticity = 1.001f;
-			projConfig.initialPosition = { originX + shot.first*dist, originY + shot.second*dist };
-			auto circle = std::make_shared<Shape>(this->world, projConfig, MakePolygon(10.f, sf::Color::Green, 3));
-			circle->getBody()->SetLinearVelocity({ static_cast<float>(shot.first*speed), static_cast<float>(shot.second*speed) });
-			addProjectile(projIdentifier, circle);
+	virtual void fire(int originX, int originY, int targetX, int targetY) override {
+		
+		for (auto proj : this->spawnBehavior({ originX, originY }, { targetX, targetY }, this->world)) {
+			assert(proj);
+			this->addProjectile(proj->getObjectIdentifier(), proj);
 		}
 	}
 
@@ -85,7 +75,7 @@ public:
 		{
 			ObjectIdentifier identifier = it->first;
 			auto events = this->contactStore->popEvents(identifier);
-			bool destroyProjectile = this->projectileBehavior(events);
+			bool destroyProjectile = this->collisionBehavior(events);
 
 			if (destroyProjectile)
 			{

@@ -7,9 +7,9 @@
 #include "game.h"
 #include "screen_edge.h"
 #include "nova.h"
-#include "gun.h"
 #include "configuration.h"
 #include "projectile_behavior.h"
+#include "polygon_provider.h"
 
 using std::shared_ptr;
 
@@ -31,7 +31,17 @@ int main()
     using ProjectileBehaviors::destroyAfterContacts;
     auto projBehavior = destroyAfterContacts(0, ObjectType::Enemy) + destroyAfterContacts(3, ObjectType::ScreenEdge);
 
-    shared_ptr<Nova> ability = std::make_shared<Nova>(world, ObjectConfig::CollisionBits{ BitMasks::PlayerBullet, BitMasks::Enemy | BitMasks::ScreenEdge }, contactStore, projBehavior);
+    using ProjectileBehaviors::spawnInDirection;
+    ObjectConfig defaultConfig;
+    defaultConfig.elasticity = 1.001f;
+    defaultConfig.collisionBits = {
+        BitMasks::PlayerBullet,
+        BitMasks::ScreenEdge | BitMasks::Enemy
+    };
+    std::shared_ptr<ShapeDefinitionProvider> triangleProvider = std::make_shared<PolygonProvider>(15.f, sf::Color::Green, 3);
+    auto gunDirection = spawnInDirection(30, defaultConfig, ObjectType::PlayerBullet, triangleProvider, 10.f);
+
+    shared_ptr<Nova> ability = std::make_shared<Nova>(world, ObjectConfig::CollisionBits{ BitMasks::PlayerBullet, BitMasks::Enemy | BitMasks::ScreenEdge }, contactStore, projBehavior, gunDirection);
 
     Game game(world, window, contactStore);
     game.setAbility(ability);

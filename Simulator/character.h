@@ -5,6 +5,7 @@
 #include "shape.h"
 #include "simulated.h"
 #include "math.h"
+#include "circle_provider.h"
 
 using std::shared_ptr;
 
@@ -21,6 +22,6 @@ private:
 	shared_ptr<b2World> world;
 	shared_ptr<Shape> shape;
 	static constexpr float RadiusPixels = 15.f;
-	static constexpr float MoveSpeed = 4.f;
+	static constexpr float MoveSpeed = 10.f;
 };
 

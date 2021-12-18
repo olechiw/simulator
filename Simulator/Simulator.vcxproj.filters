@@ -33,6 +33,18 @@
     <Filter Include="Source Files\abilities\interfaces">
       <UniqueIdentifier>{332dd07a-1868-4854-902c-a5bef99bd99d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\helpers">
+      <UniqueIdentifier>{60331e19-bc05-4cb6-99ab-04a61691a39a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\structures">
+      <UniqueIdentifier>{963d0a14-8f84-48e7-8e6e-3a57fdb5d86d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{3200704d-a51c-41c7-ae62-0b1ac4fb4d30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\objects\shape">
+      <UniqueIdentifier>{cc719fe3-9af4-4a14-a702-ab08f2da4509}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -47,15 +59,6 @@
     <ClCompile Include="mouse_state.cpp">
       <Filter>Source Files\controls</Filter>
     </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>Source Files\parameters</Filter>
-    </ClCompile>
-    <ClCompile Include="shape.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="enemies.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="contact_event_store.cpp">
       <Filter>Source Files\contact</Filter>
     </ClCompile>
@@ -65,8 +68,23 @@
     <ClCompile Include="object_identifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="enemies.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
     <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="shape.cpp">
+      <Filter>Source Files\objects\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="polygon_provider.cpp">
+      <Filter>Source Files\objects\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="circle_provider.cpp">
+      <Filter>Source Files\objects\shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,13 +121,13 @@
     <None Include="sfml-window-d-2.dll">
       <Filter>External</Filter>
     </None>
+    <None Include="polygon_provider.h">
+      <Filter>Source Files\objects\shape</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nova.h">
       <Filter>Source Files\abilities</Filter>
-    </ClInclude>
-    <ClInclude Include="shape.h">
-      <Filter>Source Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
       <Filter>Source Files\objects</Filter>
@@ -123,20 +141,11 @@
     <ClInclude Include="constants.h">
       <Filter>Source Files\parameters</Filter>
     </ClInclude>
-    <ClInclude Include="math.h">
-      <Filter>Source Files\parameters</Filter>
-    </ClInclude>
     <ClInclude Include="mouse_state.h">
       <Filter>Source Files\controls</Filter>
     </ClInclude>
     <ClInclude Include="contact_listener.h">
       <Filter>Source Files\contact</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gun.h">
-      <Filter>Source Files\abilities</Filter>
     </ClInclude>
     <ClInclude Include="object_identifier.h">
       <Filter>Source Files</Filter>
@@ -150,17 +159,35 @@
     <ClInclude Include="ability.h">
       <Filter>Source Files\abilities\interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="object_config.h">
-      <Filter>Source Files\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="projectile_behavior.h">
-      <Filter>Source Files\abilities\interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="enemies.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="configuration.h">
       <Filter>Source Files\parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="math.h">
+      <Filter>Source Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="object_config.h">
+      <Filter>Source Files\objects\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="enemies.h">
+      <Filter>Source Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>Source Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="projectile_behavior.h">
+      <Filter>Source Files\abilities</Filter>
+    </ClInclude>
+    <ClInclude Include="shape_definition_provider.h">
+      <Filter>Source Files\objects\interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="shape_definition.h">
+      <Filter>Source Files\objects\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="shape.h">
+      <Filter>Source Files\objects\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="circle_provider.h">
+      <Filter>Source Files\objects\shape</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

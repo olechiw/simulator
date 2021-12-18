@@ -7,10 +7,12 @@ Character::Character(std::shared_ptr<b2World> worldIn, int x, int y) : world(wor
     ObjectConfig circleConfig;
     circleConfig.collisionBits.CategoryBits = BitMasks::Character;
     circleConfig.collisionBits.MaskBits = BitMasks::EnemyBullet | BitMasks::ScreenEdge;
-    circleConfig.identifier = new ObjectIdentifier(ObjectType::Character);
-    circleConfig.initialPosition = { static_cast<float>(x), static_cast<float>(y) };
+    circleConfig.identifier = std::make_shared<ObjectIdentifier>(ObjectType::Character);
+    circleConfig.initialPosition = { x, y };
     circleConfig.elasticity = 0.f;
-    this->shape = std::make_shared<Shape>(worldIn, circleConfig, MakePolygon(Character::RadiusPixels, sf::Color::White, 3));
+    
+    CircleProvider circle(Character::RadiusPixels, sf::Color::White);
+    this->shape = std::make_shared<Shape>(worldIn, circleConfig, circle.get());
 }
 
 void Character::moveToPosition(int x, int y)

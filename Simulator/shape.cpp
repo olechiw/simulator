@@ -17,7 +17,8 @@ Shape::Shape(std::shared_ptr<b2World> worldIn, const ObjectConfig& objectConfig,
     fixtureDef.filter.maskBits = objectConfig.collisionBits.MaskBits;
     this->body->CreateFixture(&fixtureDef);
 
-    this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(objectConfig.identifier);
+    this->body->GetUserData().pointer = reinterpret_cast<uintptr_t>(objectConfig.identifier.get());
+    this->objectIdentifier = objectConfig.identifier;
 
     this->shape = shapeDefinition.shape;
     this->onPhysicsUpdated();
@@ -40,10 +41,14 @@ const sf::Vector2f& Shape::getPosition() const
     return this->shape->getPosition();
 }
 
+const ObjectIdentifier& Shape::getObjectIdentifier() const
+{
+    return *this->objectIdentifier.get();
+}
+
 void Shape::destroy()
 {
     this->destroyed = true;
-    delete reinterpret_cast<ObjectIdentifier*>(this->body->GetUserData().pointer);
     this->world->DestroyBody(this->body);
 }
 
@@ -64,40 +69,4 @@ void Shape::onPhysicsUpdated()
     this->shape->setPosition(pos.x * PhysicsConstants::pixelsPerMeter, pos.y * PhysicsConstants::pixelsPerMeter);
     auto angle = this->body->GetAngle();
     this->shape->setRotation(angle * 180.f / static_cast<float>(Math::pi));
-}
-
-ShapeDefinition MakeCircle(float radiusPixels, sf::Color color)
-{
-    ShapeDefinition result = {
-        std::make_shared<sf::CircleShape>(radiusPixels),
-        std::make_shared<b2CircleShape>()
-    };
-    result.shape->setFillColor(color);
-    result.shape->setOrigin(radiusPixels, radiusPixels);
-    result.b2Shape->m_radius = radiusPixels / PhysicsConstants::pixelsPerMeter;
-    return result;
-}
-
-ShapeDefinition MakePolygon(float radius, sf::Color color, int size)
-{
-    auto polygon = std::make_shared<b2PolygonShape>();
-    ShapeDefinition result = {
-        std::make_shared<sf::CircleShape>(radius, size),
-        polygon
-    };
-    result.shape->setFillColor(color);
-    result.shape->setOrigin(radius, radius);
-    
-    b2Vec2* vertices = new b2Vec2[size];
-    for (int i = 0; i < size; ++i)
-    {
-        float angle = (2.f * i * static_cast<float>(Math::pi) / size) + Math::pi / 2.f;
-        vertices[i] = {
-            radius * std::cos(angle) / PhysicsConstants::pixelsPerMeter,
-            radius * std::sin(angle) / PhysicsConstants::pixelsPerMeter
-        };
-    }
-    polygon->Set(vertices, size);
-    delete[] vertices;
-    return result;
 }

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="circle_provider.cpp" />
     <ClCompile Include="contact_listener.cpp" />
     <ClCompile Include="contact_event_store.cpp" />
     <ClCompile Include="game.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="mouse_state.cpp" />
     <ClCompile Include="object_identifier.cpp" />
     <ClCompile Include="screen_edge.cpp" />
+    <ClCompile Include="polygon_provider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="openal32.dll" />
@@ -163,10 +165,11 @@
     <None Include="sfml-system-d-2.dll" />
     <None Include="sfml-window-2.dll" />
     <None Include="sfml-window-d-2.dll" />
+    <None Include="polygon_provider.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="circle_provider.h" />
     <ClInclude Include="configuration.h" />
-    <ClInclude Include="gun.h" />
     <ClInclude Include="projectile_behavior.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="contact_listener.h" />
@@ -174,6 +177,8 @@
     <ClInclude Include="character.h" />
     <ClInclude Include="drawable.h" />
     <ClInclude Include="enemies.h" />
+    <ClInclude Include="shape_definition.h" />
+    <ClInclude Include="shape_definition_provider.h" />
     <ClInclude Include="simulated.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="math.h" />

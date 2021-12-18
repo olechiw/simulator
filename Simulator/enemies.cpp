@@ -4,11 +4,11 @@ Enemies::Enemies(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> cont
 {
 }
 
-static sf::Vector2f getRandomPosition(const sf::Vector2u& screenSize)
+static sf::Vector2i getRandomPosition(const sf::Vector2u& screenSize)
 {
 	return {
-		static_cast<float>(rand() % static_cast<int>(screenSize.x - 100) + 50),
-		static_cast<float>(rand() % static_cast<int>(screenSize.y - 100) + 50)
+		rand() % (static_cast<int>(screenSize.x) - 100) + 50,
+		rand() % (static_cast<int>(screenSize.y) - 100) + 50
 	};
 }
 
@@ -23,8 +23,9 @@ void Enemies::onPhysicsUpdated()
 		config.initialPosition = getRandomPosition(screenSize);
 		config.collisionBits = { BitMasks::Enemy, BitMasks::PlayerBullet };
 		config.elasticity = 0.f;
-		config.identifier = new ObjectIdentifier(identifier);
-		auto square = std::make_shared<Shape>(this->world, config, MakePolygon(15.f, sf::Color::Red, 4));
+		config.identifier = std::make_shared<ObjectIdentifier>(identifier);
+		PolygonProvider squareProvider(15.f, sf::Color::Red, 4);
+		auto square = std::make_shared<Shape>(this->world, config, squareProvider.get());
 		this->objects.push_back({ identifier, square });
 	}
 	for (auto it = this->objects.begin(); it != this->objects.end();)

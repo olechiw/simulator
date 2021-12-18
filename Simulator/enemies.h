@@ -7,6 +7,7 @@
 #include "contact_event_store.h"
 #include "shape.h"
 #include "configuration.h"
+#include "polygon_provider.h"
 
 using std::shared_ptr;
 using std::list;
