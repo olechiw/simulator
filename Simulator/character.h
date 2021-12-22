@@ -6,22 +6,35 @@
 #include "simulated.h"
 #include "math.h"
 #include "circle_provider.h"
+#include "ability.h"
+#include "polygon_provider.h"
+#include "projectile_behavior.h"
+#include "projectile_ability.h"
+#include "input_state.h"
 
 using std::shared_ptr;
 
 class Character : public Simulated, Drawable
 {
 public:
-	Character(shared_ptr<b2World> world, int x, int y);
-	void moveToPosition(int x, int y);
-	void stopMoving();
+	Character(shared_ptr<b2World> world, shared_ptr<ContactEventStore> contactEventStoreIn, int x, int y);
+	void handleInput(const InputState& inputState);
 	void draw(sf::RenderWindow& window) const override;
-	const sf::Vector2f& getPosition() const;
 	void onPhysicsUpdated() override;
 private:
 	shared_ptr<b2World> world;
 	shared_ptr<Shape> shape;
-	static constexpr float RadiusPixels = 15.f;
+	shared_ptr<ContactEventStore> contactEventStore;
+	shared_ptr<Ability> activeAbility;
+
+	sf::Clock abilityClock;
+
+	static constexpr int RadiusPixels = 15.f;
 	static constexpr float MoveSpeed = 10.f;
+	static constexpr float AbilityRate = .1f;
+
+	void handleMovement(const InputState& inputState);
+	void handleAbility(const InputState& inputState);
+	void stopMoving();
 };
 

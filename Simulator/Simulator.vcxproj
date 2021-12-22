@@ -143,14 +143,14 @@
     <ClCompile Include="contact_listener.cpp" />
     <ClCompile Include="contact_event_store.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="projectile_behavior.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="enemies.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="math.cpp" />
-    <ClCompile Include="mouse_state.cpp" />
+    <ClCompile Include="input_state.cpp" />
     <ClCompile Include="object_identifier.cpp" />
-    <ClCompile Include="screen_edge.cpp" />
     <ClCompile Include="polygon_provider.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -182,12 +182,11 @@
     <ClInclude Include="simulated.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="math.h" />
-    <ClInclude Include="mouse_state.h" />
-    <ClInclude Include="nova.h" />
+    <ClInclude Include="input_state.h" />
+    <ClInclude Include="projectile_ability.h" />
     <ClInclude Include="object_config.h" />
     <ClInclude Include="object_identifier.h" />
     <ClInclude Include="contact_event_store.h" />
-    <ClInclude Include="screen_edge.h" />
     <ClInclude Include="ability.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

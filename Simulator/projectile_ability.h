@@ -12,7 +12,7 @@
 
 using std::shared_ptr;
 
-class Nova : public Ability
+class ProjectileAbility : public Ability
 {
 private:
 	ObjectConfig::CollisionBits collisionBits;
@@ -47,7 +47,7 @@ private:
 	}
 
 public:
-	Nova(std::shared_ptr<b2World> worldIn, ObjectConfig::CollisionBits collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn, CollisionBehavior collisionBehaviorIn, SpawnBehavior spawnBehaviorIn) :
+	ProjectileAbility(std::shared_ptr<b2World> worldIn, ObjectConfig::CollisionBits collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn, CollisionBehavior collisionBehaviorIn, SpawnBehavior spawnBehaviorIn) :
 		world(worldIn), 
 		collisionBits(collisionBitsIn), 
 		contactStore(contactStoreIn), 

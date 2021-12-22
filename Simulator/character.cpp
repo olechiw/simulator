@@ -1,8 +1,6 @@
 #include "character.h"
-#include "math.h"
-#include <iostream>
 
-Character::Character(std::shared_ptr<b2World> worldIn, int x, int y) : world(worldIn)
+Character::Character(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> contactEventStoreIn, int x, int y) : contactEventStore(contactEventStoreIn), world(worldIn)
 {
     ObjectConfig circleConfig;
     circleConfig.collisionBits.CategoryBits = BitMasks::Character;
@@ -13,22 +11,55 @@ Character::Character(std::shared_ptr<b2World> worldIn, int x, int y) : world(wor
     
     CircleProvider circle(Character::RadiusPixels, sf::Color::White);
     this->shape = std::make_shared<Shape>(worldIn, circleConfig, circle.get());
+
+
+    using ProjectileBehaviors::destroyAfterContacts;
+    auto projBehavior = destroyAfterContacts(0, ObjectType::Enemy) + destroyAfterContacts(3, ObjectType::ScreenEdge);
+
+    ObjectConfig defaultConfig;
+    defaultConfig.elasticity = 1.001f;
+    defaultConfig.collisionBits = {
+        BitMasks::PlayerBullet,
+        BitMasks::ScreenEdge | BitMasks::Enemy
+    };
+    shared_ptr<ShapeDefinitionProvider> triangleProvider = std::make_shared<PolygonProvider>(15.f, sf::Color::Green, 3);
+    auto gunDirection = ProjectileBehaviors::spawnInDirection(30, defaultConfig, ObjectType::PlayerBullet, triangleProvider, 10.f);
+    this->activeAbility = std::make_shared<ProjectileAbility>(world, ObjectConfig::CollisionBits{ BitMasks::PlayerBullet, BitMasks::Enemy | BitMasks::ScreenEdge }, this->contactEventStore, projBehavior, gunDirection);
+
 }
 
-void Character::moveToPosition(int x, int y)
+void Character::handleInput(const InputState& inputState)
 {
-    sf::Vector2i pos = {
-        static_cast<int>(this->shape->getBody()->GetPosition().x * PhysicsConstants::pixelsPerMeter),
-        static_cast<int>(this->shape->getBody()->GetPosition().y * PhysicsConstants::pixelsPerMeter)
-    };
-    if (abs(pos.x - x) < 3 && abs(pos.y - y) < 3) {
+    this->handleMovement(inputState);
+    this->handleAbility(inputState);
+}
+
+void Character::handleAbility(const InputState& inputState)
+{
+    if (inputState.leftButtonPressed() && abilityClock.getElapsedTime().asSeconds() > Character::AbilityRate) {
+        auto mousePosition = inputState.getMousePosition();
+        auto &bodyPosition = this->shape->getBody()->GetPosition();
+        this->activeAbility->fire(
+            static_cast<int>(bodyPosition.x * PhysicsConstants::pixelsPerMeter),
+            static_cast<int>(bodyPosition.y * PhysicsConstants::pixelsPerMeter), 
+            mousePosition.x, 
+            mousePosition.y);
+        abilityClock.restart();
+    }
+}
+
+void Character::handleMovement(const InputState& inputState)
+{
+    using sf::Keyboard;
+    if (!(inputState.keyPressed(Keyboard::W) || inputState.keyPressed(Keyboard::A) || inputState.keyPressed(Keyboard::S) || inputState.keyPressed(Keyboard::D)))
+    {
         this->stopMoving();
         return;
     }
-    auto direction = Math::angleVector(pos.x, pos.y, x, y);
-    direction.x = direction.x * Character::MoveSpeed;
-    direction.y = direction.y * Character::MoveSpeed;
-    this->shape->getBody()->SetLinearVelocity({ direction.x, direction.y });
+    auto direction = Math::angleVector(
+        0, 0, -1 * inputState.keyPressed(Keyboard::A) + inputState.keyPressed(Keyboard::D), -1 * inputState.keyPressed(Keyboard::W) + inputState.keyPressed(Keyboard::S)
+    );
+    this->shape->getBody()->SetLinearVelocity({ direction.x * MoveSpeed, direction.y * MoveSpeed });
 }
 
 void Character::stopMoving()
@@ -39,14 +70,11 @@ void Character::stopMoving()
 void Character::draw(sf::RenderWindow& window) const
 {
     this->shape->draw(window);
-}
-
-const sf::Vector2f& Character::getPosition() const
-{
-    return this->shape->getPosition();
+    this->activeAbility->draw(window);
 }
 
 void Character::onPhysicsUpdated()
 {
     this->shape->onPhysicsUpdated();
+    this->activeAbility->onPhysicsUpdated();
 }

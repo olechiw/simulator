@@ -50,13 +50,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="screen_edge.cpp">
-      <Filter>Source Files\objects</Filter>
-    </ClCompile>
     <ClCompile Include="character.cpp">
       <Filter>Source Files\objects</Filter>
     </ClCompile>
-    <ClCompile Include="mouse_state.cpp">
+    <ClCompile Include="input_state.cpp">
       <Filter>Source Files\controls</Filter>
     </ClCompile>
     <ClCompile Include="contact_event_store.cpp">
@@ -85,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="circle_provider.cpp">
       <Filter>Source Files\objects\shape</Filter>
+    </ClCompile>
+    <ClCompile Include="projectile_behavior.cpp">
+      <Filter>Source Files\abilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,13 +126,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="nova.h">
+    <ClInclude Include="projectile_ability.h">
       <Filter>Source Files\abilities</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
-      <Filter>Source Files\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="screen_edge.h">
       <Filter>Source Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="contact_event_store.h">
@@ -141,7 +138,7 @@
     <ClInclude Include="constants.h">
       <Filter>Source Files\parameters</Filter>
     </ClInclude>
-    <ClInclude Include="mouse_state.h">
+    <ClInclude Include="input_state.h">
       <Filter>Source Files\controls</Filter>
     </ClInclude>
     <ClInclude Include="contact_listener.h">
