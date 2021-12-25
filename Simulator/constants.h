@@ -12,7 +12,8 @@ enum class ObjectType {
 	PlayerBullet,
 	ScreenEdge,
 	Character,
-	Enemy
+	Enemy,
+	EnemyBullet
 };
 
 

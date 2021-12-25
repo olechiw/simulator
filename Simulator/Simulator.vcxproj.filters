@@ -87,7 +87,7 @@
       <Filter>Source Files\objects</Filter>
     </ClCompile>
     <ClCompile Include="fps_counter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +190,7 @@
       <Filter>Source Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="fps_counter.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

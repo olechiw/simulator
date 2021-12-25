@@ -15,10 +15,7 @@ using std::shared_ptr;
 class ProjectileAbility : public Ability
 {
 private:
-	ObjectConfig::CollisionBits collisionBits;
-
 	std::deque < std::pair<ObjectIdentifier, std::shared_ptr<Shape>>> projectiles;
-	std::unordered_map< ObjectIdentifier, bool> projectileHasBounced;
 
 	shared_ptr<b2World> world;
 	shared_ptr<ContactEventStore> contactStore;
@@ -26,8 +23,6 @@ private:
 	SpawnBehavior spawnBehavior;
 
 	constexpr static size_t maximumProjectiles = 200;
-	constexpr static float dist = 20.f;
-	constexpr static float speed = 3.5f;
 
 	void addProjectile(ObjectIdentifier obj, std::shared_ptr<Shape> proj)
 	{
@@ -47,9 +42,8 @@ private:
 	}
 
 public:
-	ProjectileAbility(std::shared_ptr<b2World> worldIn, ObjectConfig::CollisionBits collisionBitsIn, shared_ptr<ContactEventStore> contactStoreIn, CollisionBehavior collisionBehaviorIn, SpawnBehavior spawnBehaviorIn) :
+	ProjectileAbility(std::shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> contactStoreIn, CollisionBehavior collisionBehaviorIn, SpawnBehavior spawnBehaviorIn) :
 		world(worldIn), 
-		collisionBits(collisionBitsIn), 
 		contactStore(contactStoreIn), 
 		collisionBehavior(collisionBehaviorIn),
 		spawnBehavior(spawnBehaviorIn) {

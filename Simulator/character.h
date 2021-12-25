@@ -31,7 +31,7 @@ private:
 
 	static constexpr int RadiusPixels = 15;
 	static constexpr float MoveSpeed = 10.f;
-	static constexpr float AbilityRate = .1f;
+	static constexpr float AbilityRate = .3f;
 
 	void handleMovement(const InputState& inputState);
 	void handleAbility(const InputState& inputState);

@@ -19,7 +19,7 @@ Character::Character(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> 
     defaultConfig.elasticity = 1.001f;
     defaultConfig.collisionBits = {
         BitMasks::PlayerBullet,
-        BitMasks::ScreenEdge | BitMasks::Enemy
+        BitMasks::ScreenEdge | BitMasks::Enemy | BitMasks::EnemyBullet
     };
     shared_ptr<ShapeDefinitionProvider> triangleProvider = std::make_shared<PolygonProvider>(
         15.f, 
@@ -32,11 +32,7 @@ Character::Character(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> 
         triangleProvider, 
         15.f);
     this->activeAbility = std::make_shared<ProjectileAbility>(
-        world,
-        ObjectConfig::CollisionBits{ 
-            BitMasks::PlayerBullet, 
-            BitMasks::Enemy | BitMasks::ScreenEdge 
-        },
+        this->world,
         this->contactEventStore,
         projBehavior,
         gunDirection);

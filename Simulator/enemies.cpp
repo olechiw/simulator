@@ -1,7 +1,31 @@
 #include "enemies.h"
 
-Enemies::Enemies(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> contactStoreIn) : world(worldIn), contactStore(contactStoreIn)
+Enemies::Enemies(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> contactStoreIn) : world(worldIn), contactEventStore(contactStoreIn)
 {
+	using ProjectileBehaviors::destroyAfterContacts;
+	auto projBehavior = destroyAfterContacts(0, ObjectType::Character) + destroyAfterContacts(0, ObjectType::ScreenEdge);
+
+	ObjectConfig defaultConfig;
+	defaultConfig.elasticity = 1.001f;
+	defaultConfig.collisionBits = {
+		BitMasks::EnemyBullet,
+		BitMasks::ScreenEdge | BitMasks::Character | BitMasks::PlayerBullet
+	};
+	shared_ptr<ShapeDefinitionProvider> shapeProvider = std::make_shared<PolygonProvider>(
+		15.f,
+		sf::Color::Yellow,
+		6);
+	auto gunDirection = ProjectileBehaviors::spawnInNova(
+		15.f,
+		defaultConfig,
+		ObjectType::EnemyBullet,
+		shapeProvider,
+		9.f);
+	this->ability = std::make_shared<ProjectileAbility>(
+		this->world,
+		this->contactEventStore,
+		projBehavior,
+		gunDirection);
 }
 
 static sf::Vector2i getRandomPosition(const sf::Vector2u& screenSize)
@@ -28,12 +52,25 @@ void Enemies::onPhysicsUpdated()
 		auto square = std::make_shared<Shape>(this->world, config, squareProvider.get());
 		this->objects.push_back({ identifier, square });
 	}
+
+	this->ability->onPhysicsUpdated();
+
+	if (fireClock.getElapsedTime().asSeconds() >= Enemies::fireTime)
+	{
+		fireClock.restart();
+		for (auto& object : this->objects)
+		{
+			auto& pos = object.second->getBody()->GetPosition();
+			this->ability->fire(pos.x * PhysicsConstants::pixelsPerMeter, pos.y * PhysicsConstants::pixelsPerMeter, 0, 0);
+		}
+	}
+
 	for (auto it = this->objects.begin(); it != this->objects.end();)
 	{
-		auto events = contactStore->popEvents(it->first);
+		auto events = contactEventStore->popEvents(it->first);
 		if (events.beginContactEvents && !events.beginContactEvents->empty())
 		{
-			contactStore->freeObject(it->first);
+			contactEventStore->freeObject(it->first);
 			it = this->objects.erase(it);
 		}
 		else {
@@ -48,4 +85,5 @@ void Enemies::draw(sf::RenderWindow& window)
 	{
 		obj.second->draw(window);
 	}
+	this->ability->draw(window);
 }
