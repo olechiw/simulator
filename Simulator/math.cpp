@@ -1,9 +1,13 @@
 #include "math.h"
 namespace Math
 {
+	// WRITE TESTS FOR THESE!!
 	float pointAngleRadians(int x1, int y1, int x2, int y2) {
 		int x = x1 - x2;
 		int y = y2 - y1;
+		if (x == 0) {
+			return pi / 2;
+		}
 		return std::atan(static_cast<float>(y) / x);
 	}
 

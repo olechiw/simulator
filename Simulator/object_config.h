@@ -8,7 +8,7 @@ struct ObjectConfig {
 	struct CollisionBits {
 		int16_t CategoryBits;
 		int16_t MaskBits;
-	} collisionBits;
+	} collisionBits{ 0, 0 };
 	sf::Vector2i initialPosition;
 	float elasticity = 1.001f;
 	std::shared_ptr<ObjectIdentifier> identifier;

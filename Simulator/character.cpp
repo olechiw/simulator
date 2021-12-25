@@ -12,7 +12,6 @@ Character::Character(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> 
     CircleProvider circle(Character::RadiusPixels, sf::Color::White);
     this->shape = std::make_shared<Shape>(worldIn, circleConfig, circle.get());
 
-
     using ProjectileBehaviors::destroyAfterContacts;
     auto projBehavior = destroyAfterContacts(0, ObjectType::Enemy) + destroyAfterContacts(3, ObjectType::ScreenEdge);
 
@@ -22,9 +21,25 @@ Character::Character(shared_ptr<b2World> worldIn, shared_ptr<ContactEventStore> 
         BitMasks::PlayerBullet,
         BitMasks::ScreenEdge | BitMasks::Enemy
     };
-    shared_ptr<ShapeDefinitionProvider> triangleProvider = std::make_shared<PolygonProvider>(15.f, sf::Color::Green, 3);
-    auto gunDirection = ProjectileBehaviors::spawnInDirection(30, defaultConfig, ObjectType::PlayerBullet, triangleProvider, 10.f);
-    this->activeAbility = std::make_shared<ProjectileAbility>(world, ObjectConfig::CollisionBits{ BitMasks::PlayerBullet, BitMasks::Enemy | BitMasks::ScreenEdge }, this->contactEventStore, projBehavior, gunDirection);
+    shared_ptr<ShapeDefinitionProvider> triangleProvider = std::make_shared<PolygonProvider>(
+        15.f, 
+        sf::Color::Green, 
+        3);
+    auto gunDirection = ProjectileBehaviors::spawnInDirection(
+        Character::RadiusPixels, 
+        defaultConfig, 
+        ObjectType::PlayerBullet, 
+        triangleProvider, 
+        15.f);
+    this->activeAbility = std::make_shared<ProjectileAbility>(
+        world,
+        ObjectConfig::CollisionBits{ 
+            BitMasks::PlayerBullet, 
+            BitMasks::Enemy | BitMasks::ScreenEdge 
+        },
+        this->contactEventStore,
+        projBehavior,
+        gunDirection);
 
 }
 

@@ -29,7 +29,7 @@ private:
 
 	sf::Clock abilityClock;
 
-	static constexpr int RadiusPixels = 15.f;
+	static constexpr int RadiusPixels = 15;
 	static constexpr float MoveSpeed = 10.f;
 	static constexpr float AbilityRate = .1f;
 
