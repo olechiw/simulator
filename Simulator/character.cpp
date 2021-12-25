@@ -82,7 +82,7 @@ void Character::stopMoving()
     this->shape->getBody()->SetLinearVelocity(b2Vec2(0, 0));
 }
 
-void Character::draw(sf::RenderWindow& window) const
+void Character::draw(sf::RenderWindow& window)
 {
     this->shape->draw(window);
     this->activeAbility->draw(window);

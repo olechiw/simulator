@@ -8,6 +8,7 @@
 #include "ability.h"
 #include "enemies.h"
 #include "contact_event_store.h"
+#include "fps_counter.h"
 using std::shared_ptr;
 
 class Game
@@ -28,18 +29,18 @@ private:
 
 	sf::Clock physicsClock;
 
-	std::shared_ptr<InputState> inputState;
+	shared_ptr<InputState> inputState;
 
+	shared_ptr<ContactEventStore> contactEventStore;
+	shared_ptr<ContactListener> contactListener;
 
+	shared_ptr<b2World> world;
 
-	std::shared_ptr<ContactEventStore> contactEventStore;
-	std::shared_ptr<ContactListener> contactListener;
+	shared_ptr<Character> character;
+	shared_ptr<Enemies> enemies;
 
-	std::shared_ptr<b2World> world;
+	shared_ptr<FPSCounter> fpsCounter;
 
-	std::shared_ptr<Character> character;
-	std::shared_ptr<Enemies> enemies;
-
-	std::shared_ptr<sf::RenderWindow> window;
+	shared_ptr<sf::RenderWindow> window;
 
 };

@@ -58,7 +58,7 @@ bool Shape::isDestroyed() const
 }
 
 
-void Shape::draw(sf::RenderWindow& window) const
+void Shape::draw(sf::RenderWindow& window)
 {
     window.draw(*this->shape.get());
 }

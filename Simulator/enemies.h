@@ -18,7 +18,7 @@ class Enemies : public Drawable, public Simulated
 public:
 	Enemies(shared_ptr<b2World> world, shared_ptr<ContactEventStore> contactStore);
 	void onPhysicsUpdated() override;
-	void draw(sf::RenderWindow& window) const override;
+	void draw(sf::RenderWindow& window) override;
 private:
 	static constexpr float spawnTime = 1.f;
 	static constexpr size_t maxObjects = 4;

@@ -42,7 +42,7 @@ void Enemies::onPhysicsUpdated()
 	}
 }
 
-void Enemies::draw(sf::RenderWindow& window) const
+void Enemies::draw(sf::RenderWindow& window)
 {
 	for (auto& obj : this->objects)
 	{

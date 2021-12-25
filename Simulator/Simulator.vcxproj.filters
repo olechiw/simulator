@@ -62,9 +62,6 @@
     <ClCompile Include="contact_listener.cpp">
       <Filter>Source Files\contact</Filter>
     </ClCompile>
-    <ClCompile Include="object_identifier.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="math.cpp">
       <Filter>Source Files\helpers</Filter>
     </ClCompile>
@@ -85,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="projectile_behavior.cpp">
       <Filter>Source Files\abilities</Filter>
+    </ClCompile>
+    <ClCompile Include="object_identifier.cpp">
+      <Filter>Source Files\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="fps_counter.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,9 +147,6 @@
     <ClInclude Include="contact_listener.h">
       <Filter>Source Files\contact</Filter>
     </ClInclude>
-    <ClInclude Include="object_identifier.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="drawable.h">
       <Filter>Source Files\objects\interfaces</Filter>
     </ClInclude>
@@ -185,6 +185,12 @@
     </ClInclude>
     <ClInclude Include="circle_provider.h">
       <Filter>Source Files\objects\shape</Filter>
+    </ClInclude>
+    <ClInclude Include="object_identifier.h">
+      <Filter>Source Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="fps_counter.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

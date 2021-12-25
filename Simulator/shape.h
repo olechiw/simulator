@@ -33,7 +33,7 @@ private:
 	bool destroyed = false;
 	std::shared_ptr<ObjectIdentifier> objectIdentifier;
 public:
-	void draw(sf::RenderWindow& window) const override;
+	void draw(sf::RenderWindow& window) override;
 	void onPhysicsUpdated() override;
 	bool isDestroyed() const;
 	void destroy();

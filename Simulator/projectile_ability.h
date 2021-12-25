@@ -56,7 +56,7 @@ public:
 
 	}
 
-	void draw(sf::RenderWindow& window) const override {
+	void draw(sf::RenderWindow& window) override {
 		for (auto& proj : this->projectiles) {
 			proj.second->draw(window);
 		}

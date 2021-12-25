@@ -142,6 +142,7 @@
     <ClCompile Include="circle_provider.cpp" />
     <ClCompile Include="contact_listener.cpp" />
     <ClCompile Include="contact_event_store.cpp" />
+    <ClCompile Include="fps_counter.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="projectile_behavior.cpp" />
     <ClCompile Include="shape.cpp" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="circle_provider.h" />
     <ClInclude Include="configuration.h" />
+    <ClInclude Include="fps_counter.h" />
     <ClInclude Include="projectile_behavior.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="contact_listener.h" />

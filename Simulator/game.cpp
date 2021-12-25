@@ -15,6 +15,8 @@ Game::Game(shared_ptr<sf::RenderWindow> windowIn) : window(windowIn)
 	this->character = std::make_shared<Character>(world, contactEventStore, screenSize.x / 2, screenSize.y / 2);
 	this->enemies = std::make_shared<Enemies>(world, contactEventStore);
 
+	this->fpsCounter = std::make_shared<FPSCounter>(0, 0);
+
 	this->inputState = std::make_shared<InputState>(this->window);
 }
 
@@ -83,5 +85,6 @@ void Game::updateScreen()
 	this->window->clear();
 	this->character->draw(*this->window.get());
 	this->enemies->draw(*this->window.get());
+	this->fpsCounter->draw(*this->window.get());
 	this->window->display();
 }

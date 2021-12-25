@@ -19,7 +19,7 @@ class Character : public Simulated, Drawable
 public:
 	Character(shared_ptr<b2World> world, shared_ptr<ContactEventStore> contactEventStoreIn, int x, int y);
 	void handleInput(const InputState& inputState);
-	void draw(sf::RenderWindow& window) const override;
+	void draw(sf::RenderWindow& window) override;
 	void onPhysicsUpdated() override;
 private:
 	shared_ptr<b2World> world;
